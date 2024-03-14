@@ -25,6 +25,8 @@ red = "\033[91m"
 
 
 def parse_input(user_input):
+    if not user_input.strip():
+        return "", []
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args
@@ -35,12 +37,13 @@ def main():
     try:
         notebook.load_from_file("notes.json")
     except FileNotFoundError:
-        print("File not found. Starting with an empty notebook.")
+        print(f"{green}File not found. Starting with an empty notebook.{reset}")
 
     contacts = AddressBook()
     print("Welcome to the assistant bot!")
+    
     while True:
-        user_input = input("Enter a command: ")
+        user_input = input(f"{blue}Enter a command: {reset}")
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
@@ -118,9 +121,9 @@ def main():
                 # вихід з головного циклу, якщо всі теги дійсні
                 if not invalid_tag_found:
                     break
-
-            print(f"{green}(^_^) Note was successfully created.{reset}\n")
+                
             add_note(note_text, valid_tags)
+            print(f"{green}(^_^) Note was successfully created.{reset}\n")
 
         # пошук нотатки за тегом та текстом (одночасно)
         elif command == "nfind":
@@ -170,13 +173,16 @@ def main():
 
             modify_note(note_id, new_text, valid_tags)
 
-        # видалення нотатки
+# видалення нотатки
         elif command == "ndel":
             delete_note(*args)
 
-        # показати нотатку
+# показати нотатку
         elif command == "note":
             find_note_by_id(*args)
+            
+        elif command == '':
+            print(f"{red}No command.{reset}")
 
         else:
             print(f"{red}Invalid command.{reset}")

@@ -27,10 +27,10 @@ def find_notes(tags=[], search_text=""):
         found_notes = [note for note in found_notes if search_text in note.text]
 
     if not len(found_notes):
-        print(f"{blue}No notes were found matching the search query.{reset}\n")
+        print(f"{green}No notes were found matching the search query.{reset}\n")
         return
 
-    print(f"\n{blue}Your search yielded {len(found_notes)} notes:{reset}\n")
+    print(f"\n{green}Your search yielded {len(found_notes)} notes:{reset}\n")
 
     for note in found_notes:
         print_note(note)
@@ -59,10 +59,10 @@ def delete_note(note_id):
         notebook.delete_note(note_id)
     except ValueError:
         print(
-            f"{red}(>_<) Invalid note ID: {note_id}. Note ID must be an integer.{reset}"
+            f"{red}(>_<) Invalid note ID: {note_id}. Note ID must be an integer.{reset}\n"
         )
     except IndexError:
-        print(f"{red}(>_<) No note found with ID {note_id}.{reset}")
+        print(f"{red}(>_<) No note found with ID {note_id}.{reset}\n")
 
 
 @input_error
@@ -70,19 +70,19 @@ def find_note_by_id(note_id):
     try:
         note_id = int(note_id)
         note = notebook.find_note_by_id(note_id)
+        if not note:
+            print(f'{green}No notes were found with id {note_id}{reset}\n')
+        
         print_note(note)
-
     except ValueError:
-        print(
-            f"{red}(>_<) Invalid note ID: {note_id}. Note ID must be an integer.{reset}"
-        )
+        print(f"{red}(>_<) Invalid note ID: {note_id}. Note ID must be an integer.{reset}\n")
     except IndexError:
-        print(f"{red}(>_<) No note found with ID {note_id}.{reset}")
+        print(f"{red}(>_<) No note found with ID {note_id}.{reset}\n")
 
 
 def print_note(note):
     tags_str = ", ".join(note.tags)
     formatted_date = note.creation_date.strftime("%Y-%m-%d")
 
-    note_for_print = f"{blue}id{reset}: {note.id}, {blue}date{reset}: {formatted_date}\n{blue}tags{reset}: {tags_str}\n{note.text}\n"
+    note_for_print = f"\n{green}Note:\n{blue}id{reset}: {note.id}, {blue}date{reset}: {formatted_date}\n{blue}tags{reset}: {tags_str}\n{note.text}\n"
     print(note_for_print)
