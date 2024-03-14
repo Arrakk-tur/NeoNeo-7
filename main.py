@@ -33,15 +33,15 @@ def parse_input(user_input):
 
 
 def main():
+    contacts = AddressBook()
+    print("Welcome to the assistant bot!")
 
     try:
         notebook.load_from_file("notes.json")
+        contacts.load_contacts_from_file()
     except FileNotFoundError:
-        print(f"{green}File not found. Starting with an empty notebook.{reset}")
+        print(f"{green}File not found. Starting with an empty DB.{reset}")
 
-    contacts = AddressBook()
-    print("Welcome to the assistant bot!")
-    
     while True:
         user_input = input(f"{blue}Enter a command: {reset}")
         command, *args = parse_input(user_input)
@@ -93,7 +93,8 @@ def main():
 
         # додавання окремої нотатки
         elif command == "nadd":
-            # отримання тексту нотатки, дозволяються будь-які символи у будь-які послідовності. Якщо пусто, то скасовує операцію
+            # отримання тексту нотатки, дозволяються будь-які символи у будь-які послідовності.
+            # Якщо пусто, то скасовує операцію
             note_text = " ".join(args)
             if not note_text:
                 print(f"{green}(^_^) No text entered. Note was not created.{reset}\n")
@@ -114,14 +115,15 @@ def main():
                         valid_tags.append(tag)
                     else:
                         print(
-                            f"{red}(>_<) Tag '{tag}' is invalid. Tags should contain only letters, numbers, and underscores.{reset}"
+                            f"{red}(>_<) Tag '{tag}' is invalid."
+                            f" Tags should contain only letters, numbers, and underscores.{reset}"
                         )
                         invalid_tag_found = True
                         break
                 # вихід з головного циклу, якщо всі теги дійсні
                 if not invalid_tag_found:
                     break
-                
+
             add_note(note_text, valid_tags)
             print(f"{green}(^_^) Note was successfully created.{reset}\n")
 
@@ -163,7 +165,9 @@ def main():
                         valid_tags.append(tag)
                     else:
                         print(
-                            f"{green}(>_<) Tag '{tag}' is invalid. Tags should contain only letters, numbers, and underscores. Separate multiple tags with commas.{reset}"
+                            f"{green}(>_<) Tag '{tag}' is invalid. "
+                            f"Tags should contain only letters, numbers, and underscores. "
+                            f"Separate multiple tags with commas.{reset}"
                         )
                         invalid_tag_found = True
                         break
@@ -173,15 +177,15 @@ def main():
 
             modify_note(note_id, new_text, valid_tags)
 
-# видалення нотатки
+        # видалення нотатки
         elif command == "ndel":
             delete_note(*args)
 
-# показати нотатку
+        # показати нотатку
         elif command == "note":
             find_note_by_id(*args)
-            
-        elif command == '':
+
+        elif command == "":
             print(f"{red}No command.{reset}")
 
         else:

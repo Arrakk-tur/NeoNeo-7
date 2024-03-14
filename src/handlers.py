@@ -2,7 +2,7 @@ from src.error_handler import input_error
 from src.classes import Record
 import re
 
-PHONE_MASK = r"^\d{10}$"
+PHONE_MASK = r"^\d{10}"
 BLUE = "\033[94m"
 ENDC = "\033[0m"
 
@@ -75,7 +75,7 @@ def all_contacts(contacts):
             if contact.birthday and contact.birthday.value
             else "No information"
         )
-        contact_list += f"{BLUE}{contact.name.value:<{max_name_length}}{ENDC}: phone: {phone}, birthday: {birthday}\n"
+        contact_list += f"{BLUE}{contact.name.value:<{max_name_length}}{ENDC}: phone: {phone}, birthday: {birthday}, id: {contact.id} \n"
     return contact_list
 
 
