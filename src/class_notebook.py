@@ -79,7 +79,7 @@ class Notebook:
                     new_text = ""
 
                 note.modify(new_text)
-                print(f"Text of the Note with ID {note_id} has been modified.")
+                print(f"{green}Text of the Note with ID {note_id} has been modified.{reset}")
                 self.save_to_file("notes.json")
                 break
 
@@ -93,7 +93,7 @@ class Notebook:
                     )
                 else:
                     note.set_tags(new_tags)
-                    print(f"Tags of the Note with ID {note_id} has been modified.\n")
+                    print(f"{green}Tags of the Note with ID {note_id} has been modified.{reset}\n")
 
         self.save_to_file("notes.json")
 
@@ -106,7 +106,7 @@ class Notebook:
 
         if note_to_delete:
             self.notes.remove(note_to_delete)
-            print(f"Note with ID {note_id} has been deleted.")
+            print(f"{green}Note with ID {note_id} has been deleted.{reset}")
             self.save_to_file("notes.json")
         else:
             print(f"No note found with ID {note_id}.")
