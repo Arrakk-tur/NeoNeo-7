@@ -61,7 +61,7 @@ def main():
         elif command == "hello":
             print("How can I help you?")
 
-        elif command == "add":
+        elif command == "add-contact":
             response = add_contact(args, contacts)
 
             if "overwrite" in response:
@@ -79,13 +79,13 @@ def main():
             else:
                 print(response)
 
-        elif command == "change":
+        elif command == "change-phone":
             print(change_contact(args, contacts))
 
-        elif command == "phone":
+        elif command == "show-phone":
             print(contact_phone(args, contacts))
 
-        elif command == "all":
+        elif command == "show-contacts":
             print(all_contacts(contacts))
 
         elif command == "add-birthday":
