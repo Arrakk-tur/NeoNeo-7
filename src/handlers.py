@@ -1,5 +1,5 @@
 from src.error_handler import input_error
-from src.classes import Record
+from src.classes import Record, AddressBook
 import re
 
 PHONE_MASK = r"^\d{10}"
@@ -62,27 +62,31 @@ def contact_phone(args, contacts):
 
 @input_error
 def all_contacts(contacts):
+    # [print(i[1]) for i in contacts.items()]
     if not contacts:
         return "No contacts to display."
-    print(len(contacts))
-    max_name_length = max(len(contact) for contact in contacts.keys())
-    contact_list = ""
-
-    for contact in contacts.values():
-        phone = contact.phone if contact.phone else "No phone"
-        birthday = (
-            contact.birthday.value
-            if contact.birthday and contact.birthday.value
-            else "No information"
-        )
-        contact_list += f"{BLUE}{contact.name.value:<{max_name_length}}{ENDC}: phone: {phone}, birthday: {birthday}, id: {contact.id} \n"
-        address = (
-            contact.address.value
-            if contact.address and contact.address.value
-            else "No information"
-        )
-        contact_list += f"{BLUE}{contact.name.value:<{max_name_length}}{ENDC}: phone: {phone}, birthday: {birthday}, address: {address}, id: {contact.id} \n"
-        return contact_list
+    else:
+        [print(i[1]) for i in contacts.items()]
+    # max_name_length = len(contacts)
+    # contact_list = ""
+    #
+    # for contact in contacts.items():
+    #     contact = contact[1]
+    #     print(contact)
+    # phone = contact.phone if contact.phone else "No phone"
+    # birthday = (
+    #     contact.birthday.value
+    #     if contact.birthday and contact.birthday.value
+    #     else "No information"
+    # )
+    # # contact_list += f"{BLUE}{contact.name:<{max_name_length}}{ENDC}: phone: {phone}, birthday: {birthday}, id: {contact.id} \n"
+    # address = (
+    #     contact.address.value
+    #     if contact.address and contact.address.value
+    #     else "No information"
+    # )
+    # contact_list += f"{BLUE}{contact.name}{ENDC}: phone: {contact.phone}, birthday: {contact.birthday}, address: {contact.address}, id: {contact.id} \n"
+    # return contact_list
 
 
 @input_error
@@ -124,6 +128,7 @@ def add_address(args, address_book):
     record = address_book.find(name)
     if record:
         record.add_address(address)
+        # AddressBook().update_record(record)
         return f"Address added for {name}"
     else:
         return f"No contact found with name {name}"

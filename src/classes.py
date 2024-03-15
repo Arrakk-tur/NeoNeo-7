@@ -55,13 +55,13 @@ class Address(Field):
 class Record:
     _last_id = 0
 
-    def __init__(self, name, *args):
+    def __init__(self, name, phone=None, birthday=None, address=None):
         Record._last_id += 1
         self.id = Record._last_id
         self.name = name
-        self.phone = None
-        self.birthday = None
-        self.address = None
+        self.phone = phone
+        self.birthday = birthday
+        self.address = address
 
     def add_phone(self, phone):
         self.phone = phone
@@ -88,7 +88,8 @@ class Record:
         return None
 
     def add_address(self, address):
-        self.address = Address(address)
+        # self.address = Address(address)
+        self.address = address
 
     def edit_address(self, old_address, new_address):
 
@@ -119,19 +120,18 @@ class Record:
             "address": self.address,
         }
 
-    @staticmethod
-    def record_from_dict(data):
-        record = Record(
-            data["name"], data["phone"], data["birthday"], data["address"]
-        )  # , data["email"])
-        record.id = data["id"]
-
-        return record
+    @classmethod
+    def record_from_dict(cls, data):
+        return cls(
+            name=data.get("name"),
+            phone=data.get("phone"),
+            birthday=data.get("birthday"),
+            address=data.get("address"),
+        )
 
     def __str__(self):
-        return f"id: {self.id}, name: {self.name}, phone: {self.phone}"
-
-
+        # return f"id: {self.id}, name: {self.name}, phone: {self.phone}, address: {self.address}, birthday: {self.birthday}"
+        return f"{BLUE}{self.name}{ENDC}: phone: {self.phone}, birthday: {self.birthday}, address: {self.address}, id: {self.id}"
 
 
 class AddressBook(UserDict):
@@ -139,8 +139,14 @@ class AddressBook(UserDict):
         self.data[record.id] = record
         self.save_contacts_to_file()
 
+    def update_record(self, record):
+        self.data[record.id] = record
+        self.update_contacts_to_file()
+
     def find(self, name):
-        return self.data.get(name)
+        for record in self.data.values():
+            if record.name == name:
+                return record
 
     # TODO: Realize this deleting by id
     def delete(self, name):
@@ -152,11 +158,17 @@ class AddressBook(UserDict):
             address_book_dict = [rec[1].record_to_dict() for rec in self.data.items()]
             json.dump(address_book_dict, file, indent=4)
 
+    def update_contacts_to_file(self):
+        with open(ADDRESS_BOOK_FILE_PATH, "a") as file:
+            address_book_dict = [rec[1].record_to_dict() for rec in self.data.items()]
+            json.dump(address_book_dict, file, indent=4)
+
     def load_contacts_from_file(self):
         with open(ADDRESS_BOOK_FILE_PATH, "r") as file:
             upload_data = json.load(file)
-            for i in upload_data:
-                self.data[i] = Record.record_from_dict(upload_data[i])
+            for data in upload_data:
+                record = Record.record_from_dict(data)
+                self.add_record(record)
 
     def get_birthdays_per_week(self):
         users = self.data.values()
