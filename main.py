@@ -111,10 +111,13 @@ def main():
             response = show_address(args, contacts)
             print(response)
 
-        elif command == "delete-address":
-            response = delete_address(args, contacts)
-            print(response)
-
+        elif command == "delete":
+            if args:
+                name = " ".join(args)
+                response = contacts.delete_record(name)
+                print(response)
+            else:
+                print("Please provide a name of the record you want to delete.")
 
         elif command == "delete-address":
             response = delete_address(args, contacts)

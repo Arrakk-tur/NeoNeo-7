@@ -1,6 +1,6 @@
 from collections import UserDict, defaultdict
 import re
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 import calendar
 
 
@@ -148,9 +148,12 @@ class AddressBook(UserDict):
     def find(self, name):
         return self.data.get(name)
 
-    def delete(self, name):
+    def delete_record(self, name):
         if name in self.data:
             del self.data[name]
+            return f"Record {name} has been successfully deleted."
+        else:
+            return f"Record with name {name} not found."
 
     # Birthday methods
     def next_birthdays(self, days=7):
