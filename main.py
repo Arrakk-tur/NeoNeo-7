@@ -111,6 +111,21 @@ def main():
             response = delete_address(args, contacts)
             print(response)
 
+        elif command == "delete-address":
+            response = delete_address(args, contacts)
+            print(response)
+
+        
+        elif command == "search":
+            query = " ".join(args)
+            found_records = contacts.search(query)
+            if found_records:
+                for record in found_records:
+                    
+                    print(record)
+            else:
+                print("No contacts found matching your search.")
+                
         # додавання окремої нотатки
         elif command == "nadd":
             # отримання тексту нотатки, дозволяються будь-які символи у будь-які послідовності. Якщо пусто, то скасовує операцію
