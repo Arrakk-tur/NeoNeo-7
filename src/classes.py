@@ -110,7 +110,15 @@ class Record:
 class AddressBook(UserDict):
     def add_record(self, record):
         self.data[record.name.value] = record
-
+    
+    def search(self, query):
+        result = []
+        query = query.lower()
+        for name, record in self.data.items():
+            if query in name.lower():
+                result.append(record)
+        return result
+    
     def find(self, name):
         return self.data.get(name)
 
