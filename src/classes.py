@@ -125,7 +125,13 @@ class AddressBook(UserDict):
     def delete(self, name):
         if name in self.data:
             del self.data[name]
-
+    def delete_record(self, name):
+        if name in self.data:
+            del self.data[name]
+            return f"Record {name} has been successfully deleted."
+        else:
+            return f"Record with name {name} not found."
+        
     def get_birthdays_per_week(self):
         users = self.data.values()
         if not users:
