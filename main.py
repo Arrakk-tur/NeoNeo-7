@@ -7,6 +7,10 @@ from src.handlers import (
     add_birthday,
     show_birthday,
     birthdays,
+    add_address,
+    change_address,
+    show_address,
+    delete_address,
 )
 from src.handler_notebook import (
     add_note,
@@ -90,6 +94,22 @@ def main():
 
         elif command == "birthdays":
             birthdays(contacts)
+
+        elif command == "add-address":
+            response = add_address(args, contacts)
+            print(response)
+
+        elif command == "change-address":
+            response = change_address(args, contacts)
+            print(response)
+
+        elif command == "show-address":
+            response = show_address(args, contacts)
+            print(response)
+
+        elif command == "delete-address":
+            response = delete_address(args, contacts)
+            print(response)
 
         # додавання окремої нотатки
         elif command == "nadd":

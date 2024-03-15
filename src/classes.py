@@ -46,6 +46,11 @@ class Birthday(Field):
         super().__init__(value)
 
 
+class Address(Field):
+    def __init__(self, value):
+        super().__init__(value)
+
+
 class Record:
     _last_id = 0
 
@@ -55,6 +60,7 @@ class Record:
         self.name = Name(name)
         self.phone = None
         self.birthday = None
+        self.address = None
 
     def add_phone(self, phone):
         self.phone = phone
@@ -80,6 +86,28 @@ class Record:
                 return p
         return None
 
+    def add_address(self, address):
+        self.address = Address(address)
+
+    def edit_address(self, old_address, new_adress):
+
+        if self.address.value == old_address:
+            self.address = Address(new_adress)
+        else:
+            raise ValueError(f"Contact don't have address {old_address}")
+
+    def show_address(self):
+        if self.address and self.address.value:
+            print(f"Address: {self.address.value}")
+        else:
+            print("Address not set")
+
+    def remove_address(self, address):
+        if self.address.value == address:
+            self.address = None
+        else:
+            raise ValueError(f"Adress {address} doesn't exist")
+
     def __str__(self):
         return f"phone: {self.phone}"
 
@@ -90,7 +118,7 @@ class Record:
             "phone": self.phone,
             "birthday": self.birthday,
             # "email": self.email,
-            # "address": self.address,
+            "address": self.address,
         }
 
     @staticmethod

@@ -76,7 +76,13 @@ def all_contacts(contacts):
             else "No information"
         )
         contact_list += f"{BLUE}{contact.name.value:<{max_name_length}}{ENDC}: phone: {phone}, birthday: {birthday}, id: {contact.id} \n"
-    return contact_list
+        address = (
+            contact.address.value
+            if contact.address and contact.address.value
+            else "No information"
+        )
+        contact_list += f"{BLUE}{contact.name.value:<{max_name_length}}{ENDC}: phone: {phone}, birthday: {birthday}, address: {address}, id: {contact.id} \n"
+        return contact_list
 
 
 @input_error
@@ -106,3 +112,69 @@ def show_birthday(args, address_book):
 @input_error
 def birthdays(address_book):
     address_book.get_birthdays_per_week()
+
+
+@input_error
+def add_address(args, address_book):
+    try:
+        name, address = args
+    except:
+        raise ValueError("The command is bad. Give me name and address.")
+
+    record = address_book.find(name)
+    if record:
+        record.add_address(address)
+        return f"Address added for {name}"
+    else:
+        return f"No contact found with name {name}"
+
+
+@input_error
+def change_address(args, contacts):
+
+    try:
+        name, old_addrees, new_address = args
+    except:
+        raise ValueError(
+            "The command is bad. Give me name, old address and new address."
+        )
+
+    record = contacts.find(name)
+
+    if record:
+        record.edit_address(old_addrees, new_address)
+        return "Address changed"
+    else:
+        return f"There isn't a contact with name {name}"
+
+
+@input_error
+def show_address(args, address_book):
+    try:
+        name = args[0]
+    except:
+        raise ValueError("The command is bad. Give me name")
+
+    record = address_book.find(name)
+    if record:
+        if record.address and record.address.value:
+            return f"Address of {name}: {record.address.value}"
+        else:
+            return f"Address not set for {name}"
+    else:
+        return f"No contact found with name {name}"
+
+
+@input_error
+def delete_address(args, address_book):
+
+    try:
+        name, address = args
+    except:
+        raise ValueError("The command is bad. Give me name and address.")
+    record = address_book.find(name)
+    if record:
+        record.remove_address(address)
+        return f"Address {address} was deleted"
+    else:
+        return f"No contact found with name {name}"
