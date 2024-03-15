@@ -50,12 +50,18 @@ class Address(Field):
         super().__init__(value)
 
 
+class Email(Field):
+    def __init__(self, value):
+        super().__init__(value)
+
+
 class Record:
     def __init__(self, name, birthday=None):
         self.name = Name(name)
         self.phones = None
         self.birthday = Birthday(birthday) if birthday else None
         self.address = None
+        self.email = None
 
     def add_phone(self, phone):
         self.phone = phone
@@ -102,6 +108,28 @@ class Record:
             self.address = None
         else:
             raise ValueError(f"Adress {address} doesn't exist")
+
+    def add_email(self, email):
+        self.email = Email(email)
+
+    def edit_email(self, old_email, new_email):
+
+        if self.email.value == old_email:
+            self.email = Email(new_email)
+        else:
+            raise ValueError(f"Contact don't have email {old_email}")
+
+    def show_email(self):
+        if self.email and self.email.value:
+            print(f"Email: {self.email.value}")
+        else:
+            print("Email not set")
+
+    def remove_email(self, email):
+        if self.email.value == email:
+            self.email = None
+        else:
+            raise ValueError(f"Email {email} doesn't exist")
 
     def __str__(self):
         return f"phone: {self.phone}"

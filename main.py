@@ -11,6 +11,10 @@ from src.handlers import (
     change_address,
     show_address,
     delete_address,
+    add_email,
+    change_email,
+    show_email,
+    delete_email,
 )
 from src.handler_notebook import (
     add_note,
@@ -45,7 +49,7 @@ def main():
 
     contacts = AddressBook()
     print("Welcome to the assistant bot!")
-    
+
     while True:
         user_input = input(f"{blue}Enter a command: {reset}")
         command, *args = parse_input(user_input)
@@ -111,6 +115,7 @@ def main():
             response = delete_address(args, contacts)
             print(response)
 
+
         elif command == "delete-address":
             response = delete_address(args, contacts)
             print(response)
@@ -126,6 +131,24 @@ def main():
             else:
                 print("No contacts found matching your search.")
                 
+
+        elif command == "add-email":
+            response = add_email(args, contacts)
+            print(response)
+
+        elif command == "change-email":
+            response = change_email(args, contacts)
+            print(response)
+
+        elif command == "show-email":
+            response = show_email(args, contacts)
+            print(response)
+
+        elif command == "delete-email":
+            response = delete_email(args, contacts)
+            print(response)
+
+
         # додавання окремої нотатки
         elif command == "nadd":
             # отримання тексту нотатки, дозволяються будь-які символи у будь-які послідовності. Якщо пусто, то скасовує операцію
@@ -156,7 +179,7 @@ def main():
                 # вихід з головного циклу, якщо всі теги дійсні
                 if not invalid_tag_found:
                     break
-                
+
             add_note(note_text, valid_tags)
             print(f"{green}(^_^) Note was successfully created.{reset}\n")
 
@@ -208,15 +231,15 @@ def main():
 
             modify_note(note_id, new_text, valid_tags)
 
-# видалення нотатки
+        # видалення нотатки
         elif command == "ndel":
             delete_note(*args)
 
-# показати нотатку
+        # показати нотатку
         elif command == "note":
             find_note_by_id(*args)
-            
-        elif command == '':
+
+        elif command == "":
             print(f"{red}No command.{reset}")
 
         else:
