@@ -30,7 +30,7 @@ class Phone(Field):
 class Birthday(Field):
     def init(self, birthday):
         try:
-            datetime.strptime(birthday, '%d.%m.%Y')
+            datetime.strptime(birthday, "%d.%m.%Y")
         except ValueError:
             raise ValueError("The date format is not 'DD.MM.YYYY'")
         super().init(birthday)
@@ -42,7 +42,14 @@ class Address(Field):
 
 
 class Email(Field):
-    def __init__(self, value):
+    def __init__(self, value=None):
+        regex = re.compile(
+            r"([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+"
+        )
+        if not re.fullmatch(regex, value):
+            raise ValueError(
+                "Email must be in format (username)@(domainname).(top-leveldomain)"
+            )
         super().__init__(value)
 
 
@@ -137,7 +144,7 @@ class AddressBook(UserDict):
         if name in self.data:
             del self.data[name]
 
-    # Birthday methods    
+    # Birthday methods
     def next_birthdays(self, days=7):
         WEEKDAYS = list(calendar.day_name)
         CURRENT_DATE = datetime.today().date()
