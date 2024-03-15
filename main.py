@@ -133,10 +133,6 @@ def main():
                 
 
         elif command == "add-email":
-            response = add_email(args, contacts)
-            print(response)
-
-        elif command == "change-email":
             response = change_email(args, contacts)
             print(response)
 
