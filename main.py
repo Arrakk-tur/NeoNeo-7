@@ -6,7 +6,7 @@ from src.handlers import (
     all_contacts,
     add_birthday,
     show_birthday,
-    birthdays,
+    next_birthdays,
     add_address,
     change_address,
     show_address,
@@ -96,8 +96,8 @@ def main():
             response = show_birthday(args, contacts)
             print(response)
 
-        elif command == "birthdays":
-            birthdays(contacts)
+        elif command == "next_birthdays":
+            next_birthdays(args, contacts)
 
         elif command == "add-address":
             response = add_address(args, contacts)
