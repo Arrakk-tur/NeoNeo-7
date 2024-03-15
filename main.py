@@ -6,11 +6,15 @@ from src.handlers import (
     all_contacts,
     add_birthday,
     show_birthday,
-    birthdays,
+    next_birthdays,
     add_address,
     change_address,
     show_address,
     delete_address,
+    add_email,
+    change_email,
+    show_email,
+    delete_email,
 )
 from src.handler_notebook import (
     add_note,
@@ -57,7 +61,7 @@ def main():
         elif command == "hello":
             print("How can I help you?")
 
-        elif command == "add":
+        elif command == "add-contact":
             response = add_contact(args, contacts)
 
             if "overwrite" in response:
@@ -75,13 +79,13 @@ def main():
             else:
                 print(response)
 
-        elif command == "change":
+        elif command == "change-phone":
             print(change_contact(args, contacts))
 
-        elif command == "phone":
+        elif command == "show-phone":
             print(contact_phone(args, contacts))
 
-        elif command == "all":
+        elif command == "show-contacts":
             print(all_contacts(contacts))
 
         elif command == "add-birthday":
@@ -92,8 +96,8 @@ def main():
             response = show_birthday(args, contacts)
             print(response)
 
-        elif command == "birthdays":
-            birthdays(contacts)
+        elif command == "next_birthdays":
+            next_birthdays(args, contacts)
 
         elif command == "add-address":
             response = add_address(args, contacts)
@@ -107,8 +111,42 @@ def main():
             response = show_address(args, contacts)
             print(response)
 
+        elif command == "delete":
+            if args:
+                name = " ".join(args)
+                response = contacts.delete_record(name)
+                print(response)
+            else:
+                print("Please provide a name of the record you want to delete.")
+
         elif command == "delete-address":
             response = delete_address(args, contacts)
+            print(response)
+
+        elif command == "search":
+            query = " ".join(args)
+            found_records = contacts.search(query)
+            if found_records:
+                for record in found_records:
+
+                    print(record)
+            else:
+                print("No contacts found matching your search.")
+
+        elif command == "add-email":
+            response = add_email(args, contacts)
+            print(response)
+
+        elif command == "change-email":
+            response = change_email(args, contacts)
+            print(response)
+
+        elif command == "show-email":
+            response = show_email(args, contacts)
+            print(response)
+
+        elif command == "delete-email":
+            response = delete_email(args, contacts)
             print(response)
 
         # додавання окремої нотатки

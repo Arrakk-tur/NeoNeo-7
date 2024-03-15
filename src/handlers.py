@@ -2,7 +2,7 @@ from src.error_handler import input_error
 from src.classes import Record, AddressBook
 import re
 
-PHONE_MASK = r"^\d{10}"
+PHONE_MASK = r"^\d{10}$"
 BLUE = "\033[94m"
 ENDC = "\033[0m"
 
@@ -62,7 +62,6 @@ def contact_phone(args, contacts):
 
 @input_error
 def all_contacts(contacts):
-    # [print(i[1]) for i in contacts.items()]
     if not contacts:
         return "No contacts to display."
     else:
@@ -114,8 +113,12 @@ def show_birthday(args, address_book):
 
 
 @input_error
-def birthdays(address_book):
-    address_book.get_birthdays_per_week()
+def next_birthdays(args, address_book):
+    if len(args) == 0:
+        address_book.next_birthdays()
+    else:
+        days = args[0]
+        address_book.next_birthdays(int(days))
 
 
 @input_error
@@ -181,5 +184,69 @@ def delete_address(args, address_book):
     if record:
         record.remove_address(address)
         return f"Address {address} was deleted"
+    else:
+        return f"No contact found with name {name}"
+
+
+@input_error
+def add_email(args, address_book):
+    try:
+        name, email = args
+    except:
+        raise ValueError("The command is bad. Give me name and email.")
+
+    record = address_book.find(name)
+    if record:
+        record.add_email(email)
+        return f"Email added for {name}"
+    else:
+        return f"No contact found with name {name}"
+
+
+@input_error
+def change_email(args, contacts):
+
+    try:
+        name, old_email, new_email = args
+    except:
+        raise ValueError("The command is bad. Give me name, old email and new email.")
+
+    record = contacts.find(name)
+
+    if record:
+        record.edit_email(old_email, new_email)
+        return "Email changed"
+    else:
+        return f"There isn't a contact with name {name}"
+
+
+@input_error
+def show_email(args, address_book):
+    try:
+        name = args[0]
+    except:
+        raise ValueError("The command is bad. Give me name")
+
+    record = address_book.find(name)
+    if record:
+        if record.email and record.email.value:
+            return f"Email of {name}: {record.email.value}"
+        else:
+            return f"Email not set for {name}"
+    else:
+        return f"No contact found with name {name}"
+
+
+@input_error
+def delete_email(args, address_book):
+
+    try:
+        name, email = args
+    except:
+        raise ValueError("The command is bad. Give me name and email.")
+    record = address_book.find(name)
+    if record:
+        record.remove_email(email)
+        return f"Address {email} was deleted"
     else:
         return f"No contact found with name {name}"
