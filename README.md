@@ -29,11 +29,14 @@ The CLI Contact Book and Notes App is a command-line tool designed to help you m
   - Delete contacts information from your list.
   - View list of contacts that have birthday for the next N days.
 
-- Create and manage notes:
-  - Create and save notes.
-  - List all your notes.
-  - Read and edit individual notes.
-  - Delete notes when they are no longer needed.
+- System for handling notes:
+  - Create and store your notes.
+  - Display a list of all notes you have created.
+  - Access and modify specific notes.
+  - Erase notes that are no longer required.
+  - Search for notes using both keywords and tags at the same time.
+  - Attach and detach tags from specific notes.
+  - Erase either the text or the tags within a note.
   
 
 ## Getting Started:
@@ -80,12 +83,14 @@ add-birthday "[name]" "[birth date]": Add a date of birth for a specified contac
 show-birthday "[name]": Show contact birthday
 next_birthdays "[days]" (default=7 days): Show birthdays that will occur in the period of days passed as parameter. By default used 7 days.
 
-Explanation for commands for notes will be added later:
-nadd: Add note
-nfind: Search note by tag and text
-nedit: Edit note
-ndel: Delete note
-note: Show all notes
+naad first prompt: [text]:  Add text
+    next prompt: [tags] separated by commas (optional): 	Add tags (optional)
+nfind [keywords #tags]: Search by keywords and tags
+nedit	[id]
+	next prompt: [new-text] || [clear] (optional)		New text. Skip if nothing. Delete text if 'clear'
+	next prompt: [new-tags] || [clear] (optional)		New tags. Skip if nothing. Delete text if 'clear' 			
+ndel	[id]:	Delete note
+note	[id]:	Show note with "id"
 
 close or exit: Close the program.
 
@@ -97,8 +102,7 @@ close or exit: Close the program.
     add-phone John 1234567890
     show-contacts
 
-    >>> 
-    ```
+     ```
 
 
 ## Project Completion
