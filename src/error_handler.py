@@ -4,8 +4,10 @@ def input_error(func):
             return func(*args, **kwargs)
         except ValueError as error:
             return str(error)
-        except TypeError:
-            return "Phone number is invalid. The phone number must consist of exactly 10 digits. "
+        # except TypeError:
+        #     return "Phone number is invalid. The phone number must consist of exactly 10 digits. "
+        except TypeError as t_e:
+            return str(t_e)
         except IndexError:
             return "The command is bad. Enter a command again."
         # except:

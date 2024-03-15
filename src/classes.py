@@ -27,7 +27,8 @@ class Field:
 
 
 class Name(Field):
-    pass
+    def __init__(self, value):
+        super().__init__(value)
 
 
 class Phone(Field):
@@ -57,7 +58,7 @@ class Record:
     def __init__(self, name, *args):
         Record._last_id += 1
         self.id = Record._last_id
-        self.name = Name(name)
+        self.name = name
         self.phone = None
         self.birthday = None
         self.address = None
@@ -89,10 +90,10 @@ class Record:
     def add_address(self, address):
         self.address = Address(address)
 
-    def edit_address(self, old_address, new_adress):
+    def edit_address(self, old_address, new_address):
 
         if self.address.value == old_address:
-            self.address = Address(new_adress)
+            self.address = Address(new_address)
         else:
             raise ValueError(f"Contact don't have address {old_address}")
 
@@ -108,9 +109,6 @@ class Record:
         else:
             raise ValueError(f"Adress {address} doesn't exist")
 
-    def __str__(self):
-        return f"phone: {self.phone}"
-
     def record_to_dict(self):
         return {
             "id": self.id,
@@ -124,16 +122,21 @@ class Record:
     @staticmethod
     def record_from_dict(data):
         record = Record(
-            data["name"], data["phone"], data["birthday"]
-        )  # , data["email"], data["address"])
+            data["name"], data["phone"], data["birthday"], data["address"]
+        )  # , data["email"])
         record.id = data["id"]
 
         return record
 
+    def __str__(self):
+        return f"id: {self.id}, name: {self.name}, phone: {self.phone}"
+
+
+
 
 class AddressBook(UserDict):
     def add_record(self, record):
-        self.data[record.name.value] = record
+        self.data[record.id] = record
         self.save_contacts_to_file()
 
     def find(self, name):
@@ -144,10 +147,9 @@ class AddressBook(UserDict):
         if name in self.data:
             del self.data[name]
 
-    # TODO: Rewrite this function to seve data in json
     def save_contacts_to_file(self):
         with open(ADDRESS_BOOK_FILE_PATH, "w") as file:
-            address_book_dict = [rec for rec in self.data.items()]
+            address_book_dict = [rec[1].record_to_dict() for rec in self.data.items()]
             json.dump(address_book_dict, file, indent=4)
 
     def load_contacts_from_file(self):

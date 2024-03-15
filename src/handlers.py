@@ -64,7 +64,7 @@ def contact_phone(args, contacts):
 def all_contacts(contacts):
     if not contacts:
         return "No contacts to display."
-
+    print(len(contacts))
     max_name_length = max(len(contact) for contact in contacts.keys())
     contact_list = ""
 
