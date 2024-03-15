@@ -114,8 +114,12 @@ def show_birthday(args, address_book):
 
 
 @input_error
-def birthdays(address_book):
-    address_book.get_birthdays_per_week()
+def next_birthdays(args, address_book):
+    if len(args) == 0:
+        address_book.next_birthdays()
+    else:
+        days = args[0]
+        address_book.next_birthdays(int(days))
 
 
 @input_error
