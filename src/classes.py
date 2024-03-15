@@ -1,18 +1,9 @@
-from collections import UserDict
+from collections import UserDict, defaultdict
 import re
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
+import calendar
 
 
-WEEK_DAYS = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-]
-DELTA_MAP = {"Monday": 5, "Sunday": 6}
 BLUE = "\033[94m"
 ENDC = "\033[0m"
 
@@ -37,12 +28,12 @@ class Phone(Field):
 
 
 class Birthday(Field):
-    def __init__(self, value=None):
-        if value and not re.fullmatch(
-            r"(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d{2}", value
-        ):
-            raise ValueError("Birthday must be in format DD.MM.YYYY")
-        super().__init__(value)
+    def init(self, birthday):
+        try:
+            datetime.strptime(birthday, '%d.%m.%Y')
+        except ValueError:
+            raise ValueError("The date format is not 'DD.MM.YYYY'")
+        super().init(birthday)
 
 
 class Address(Field):
@@ -154,45 +145,25 @@ class AddressBook(UserDict):
         if name in self.data:
             del self.data[name]
 
-    def get_birthdays_per_week(self):
-        users = self.data.values()
-        if not users:
-            return []
-
-        this_week_birthdays = {}
-        current_date = date.today()
-        current_week_day = current_date.strftime("%A")
-        delta = DELTA_MAP.get(current_week_day, 7)
-
-        time_delta = timedelta(days=delta)
-
-        for user in users:
-            if user.birthday and user.birthday.value:
-                birthday_date = datetime.strptime(user.birthday.value, "%d.%m.%Y")
-                birthday_this_year = birthday_date.replace(
-                    year=current_date.year
-                ).date()
-
-                if (birthday_this_year - current_date) > time_delta:
-                    continue
-
-                birthday_week_day = birthday_this_year.strftime("%A")
-
-                if birthday_week_day in ("Saturday", "Sunday"):
-                    birthday_week_day = "Monday"
-
-                if birthday_week_day in this_week_birthdays:
-                    this_week_birthdays[birthday_week_day].append(user.name.value)
-                else:
-                    this_week_birthdays[birthday_week_day] = [user.name.value]
-
-        sorted_birthdays = {
-            day: this_week_birthdays[day]
-            for day in WEEK_DAYS
-            if day in this_week_birthdays
-        }
-
-        for day, names in sorted_birthdays.items():
-            print(f"{BLUE}{day:<9}{ENDC}: {', '.join(names)}")
-
-        return
+    # Birthday methods    
+    def next_birthdays(self, days=7):
+        WEEKDAYS = list(calendar.day_name)
+        CURRENT_DATE = datetime.today().date()
+        upcoming_birthdays = defaultdict(list)
+        for name, record in self.data.items():
+            if record.birthday:
+                bday = datetime.strptime(record.birthday.value, "%d.%m.%Y").date()
+                next_birthday = datetime(CURRENT_DATE.year, bday.month, bday.day).date()
+                if CURRENT_DATE <= next_birthday <= CURRENT_DATE + timedelta(days=days):
+                    upcoming_birthdays[next_birthday].append(name)
+        if not upcoming_birthdays:
+            print(f"No upcoming birthdays in the next {days} days.")
+        else:
+            desc = f"Upcoming birthdays in the next {days} days:"
+            for next_birthday, names in sorted(upcoming_birthdays.items()):
+                day_of_week = WEEKDAYS[next_birthday.weekday()]
+                formatted_names = ", ".join(
+                    [f"{name} ({next_birthday.strftime('%d.%m.%Y')})" for name in names]
+                )
+                desc += f"\n{day_of_week}: {formatted_names}"
+            print(desc)
