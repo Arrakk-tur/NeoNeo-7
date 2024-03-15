@@ -31,12 +31,12 @@ class Phone(Field):
 
 
 class Birthday(Field):
-    def init(self, birthday):
+    def __init__(self, birthday):
         try:
             datetime.strptime(birthday, "%d.%m.%Y")
         except ValueError:
             raise ValueError("The date format is not 'DD.MM.YYYY'")
-        super().init(birthday)
+        super().__init__(birthday)
 
 
 class Address(Field):
@@ -45,7 +45,7 @@ class Address(Field):
 
 
 class Email(Field):
-    def __init__(self, value=None):
+    def __init__(self, value):
         regex = re.compile(
             r"([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+"
         )
@@ -59,19 +59,21 @@ class Email(Field):
 class Record:
     _last_id = 0
 
-    def __init__(self, name, phone=None, birthday=None, address=None):
+    def __init__(self, name, phone=None, birthday=None, address=None, email=None):
         Record._last_id += 1
         self.id = Record._last_id
         self.name = name
         self.phone = phone
-        self.birthday = Birthday(birthday) if birthday else None
+        self.email = email
+        # self.birthday = Birthday(birthday) if birthday else None
+        self.birthday = birthday
         self.address = address
 
     def add_phone(self, phone):
         self.phone = phone
 
     def add_birthday(self, birthday):
-        self.birthday = Birthday(birthday)
+        self.birthday = birthday
 
     def show_birthday(self):
         if self.birthday and self.birthday.value:
@@ -115,7 +117,7 @@ class Record:
             raise ValueError(f"Adress {address} doesn't exist")
 
     def add_email(self, email):
-        self.email = Email(email)
+        self.email = email
 
     def edit_email(self, old_email, new_email):
 
@@ -142,7 +144,7 @@ class Record:
             "name": self.name,
             "phone": self.phone,
             "birthday": self.birthday,
-            # "email": self.email,
+            "email": self.email,
             "address": self.address,
         }
 
@@ -152,22 +154,21 @@ class Record:
             name=data.get("name"),
             phone=data.get("phone"),
             birthday=data.get("birthday"),
+            email=data.get("email"),
             address=data.get("address"),
         )
 
     def __str__(self):
-        # return f"id: {self.id}, name: {self.name}, phone: {self.phone}, address: {self.address}, birthday: {self.birthday}"
-        return f"{BLUE}{self.name}{ENDC}: phone: {self.phone}, birthday: {self.birthday}, address: {self.address}, id: {self.id}"
+        birthday = "" if self.birthday is None else f", birthday: {self.birthday}"
+        address = "" if self.address is None else f", address: {self.address}"
+        email = "" if self.email is None else f", email: {self.email}"
+        return f"{BLUE}{self.name}{ENDC}: phone: {self.phone}{birthday}{address}{email}, id: {self.id}"
 
 
 class AddressBook(UserDict):
     def add_record(self, record):
         self.data[record.id] = record
         self.save_contacts_to_file()
-
-    def update_record(self, record):
-        self.data[record.id] = record
-        self.update_contacts_to_file()
 
     def search(self, query):
         result = []
@@ -191,11 +192,6 @@ class AddressBook(UserDict):
 
     def save_contacts_to_file(self):
         with open(ADDRESS_BOOK_FILE_PATH, "w") as file:
-            address_book_dict = [rec[1].record_to_dict() for rec in self.data.items()]
-            json.dump(address_book_dict, file, indent=4)
-
-    def update_contacts_to_file(self):
-        with open(ADDRESS_BOOK_FILE_PATH, "a") as file:
             address_book_dict = [rec[1].record_to_dict() for rec in self.data.items()]
             json.dump(address_book_dict, file, indent=4)
 
