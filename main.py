@@ -111,9 +111,29 @@ def main():
             response = show_address(args, contacts)
             print(response)
 
+        elif command == "delete":
+            if args:
+                name = " ".join(args)
+                response = contacts.delete_record(name)
+                print(response)
+            else:
+                print("Please provide a name of the record you want to delete.")
+
         elif command == "delete-address":
             response = delete_address(args, contacts)
             print(response)
+
+        
+        elif command == "search":
+            query = " ".join(args)
+            found_records = contacts.search(query)
+            if found_records:
+                for record in found_records:
+                    
+                    print(record)
+            else:
+                print("No contacts found matching your search.")
+                
 
         elif command == "add-email":
             response = add_email(args, contacts)
@@ -130,6 +150,7 @@ def main():
         elif command == "delete-email":
             response = delete_email(args, contacts)
             print(response)
+
 
         # додавання окремої нотатки
         elif command == "nadd":
