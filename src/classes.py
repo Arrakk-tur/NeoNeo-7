@@ -62,18 +62,17 @@ class Record:
     def __init__(self, name, phone=None, birthday=None, address=None, email=None):
         Record._last_id += 1
         self.id = Record._last_id
-        self.name = name
-        self.phone = phone
-        self.email = email
-        # self.birthday = Birthday(birthday) if birthday else None
-        self.birthday = birthday
-        self.address = address
+        self.name = Name(name)
+        self.phone = Phone(phone) if phone else None
+        self.email = Email(email) if email else None
+        self.birthday = Birthday(birthday) if birthday else None
+        self.address = Address(address) if address else None
 
     def add_phone(self, phone):
-        self.phone = phone
+        self.phone = Phone(phone)
 
     def add_birthday(self, birthday):
-        self.birthday = birthday
+        self.birthday = Birthday(birthday)
 
     def show_birthday(self):
         if self.birthday and self.birthday.value:
@@ -81,28 +80,25 @@ class Record:
         else:
             print("Birthday not set")
 
-    def remove_phone(self, phone):
+    def remove_phone(self):
         self.phone = None
 
     def edit_phone(self, new_phone):
-        self.phone = new_phone
+        self.phone = Phone(new_phone)
 
     def find_phone(self, phone):
-        for p in self.phone:
-            if p.value == phone:
-                return p
+        if self.phone and self.phone.value == phone:
+            return self.phone
         return None
 
     def add_address(self, address):
-        # self.address = Address(address)
-        self.address = address
+        self.address = Address(address)
 
     def edit_address(self, old_address, new_address):
-
-        if self.address.value == old_address:
+        if self.address and self.address.value == old_address:
             self.address = Address(new_address)
         else:
-            raise ValueError(f"Contact don't have address {old_address}")
+            raise ValueError(f"Contact doesn't have address {old_address}")
 
     def show_address(self):
         if self.address and self.address.value:
@@ -110,21 +106,17 @@ class Record:
         else:
             print("Address not set")
 
-    def remove_address(self, address):
-        if self.address.value == address:
-            self.address = None
-        else:
-            raise ValueError(f"Adress {address} doesn't exist")
+    def remove_address(self):
+        self.address = None
 
     def add_email(self, email):
-        self.email = email
+        self.email = Email(email)
 
     def edit_email(self, old_email, new_email):
-
-        if self.email.value == old_email:
+        if self.email and self.email.value == old_email:
             self.email = Email(new_email)
         else:
-            raise ValueError(f"Contact don't have email {old_email}")
+            raise ValueError(f"Contact doesn't have email {old_email}")
 
     def show_email(self):
         if self.email and self.email.value:
@@ -132,20 +124,17 @@ class Record:
         else:
             print("Email not set")
 
-    def remove_email(self, email):
-        if self.email.value == email:
-            self.email = None
-        else:
-            raise ValueError(f"Email {email} doesn't exist")
+    def remove_email(self):
+        self.email = None
 
     def record_to_dict(self):
         return {
             "id": self.id,
-            "name": self.name,
-            "phone": self.phone,
-            "birthday": self.birthday,
-            "email": self.email,
-            "address": self.address,
+            "name": self.name.value,
+            "phone": self.phone.value if self.phone else None,
+            "birthday": self.birthday.value if self.birthday else None,
+            "email": self.email.value if self.email else None,
+            "address": self.address.value if self.address else None,
         }
 
     @classmethod
@@ -159,10 +148,10 @@ class Record:
         )
 
     def __str__(self):
-        birthday = "" if self.birthday is None else f", birthday: {self.birthday}"
-        address = "" if self.address is None else f", address: {self.address}"
-        email = "" if self.email is None else f", email: {self.email}"
-        return f"{BLUE}{self.name}{ENDC}: phone: {self.phone}{birthday}{address}{email}, id: {self.id}"
+        birthday = "" if not self.birthday else f", birthday: {self.birthday}"
+        address = "" if not self.address else f", address: {self.address}"
+        email = "" if not self.email else f", email: {self.email}"
+        return f"{BLUE}{self.name.value}{ENDC}: phone: {self.phone.value if self.phone else 'Not set'}{birthday}{address}{email}, id: {self.id}"
 
 
 class AddressBook(UserDict):
@@ -180,7 +169,7 @@ class AddressBook(UserDict):
 
     def find(self, name):
         for record in self.data.values():
-            if record.name == name:
+            if record.name.value == name:
                 return record
 
     def delete_record(self, name):

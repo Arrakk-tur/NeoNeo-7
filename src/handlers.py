@@ -2,7 +2,6 @@ from src.error_handler import input_error
 from src.classes import Record, AddressBook
 import re
 
-PHONE_MASK = r"^\d{10}$"
 BLUE = "\033[94m"
 ENDC = "\033[0m"
 
@@ -11,8 +10,6 @@ ENDC = "\033[0m"
 def add_contact(args, address_book, is_consent=False):
     name, phone = args
 
-    if not bool(re.fullmatch(PHONE_MASK, phone)):
-        raise TypeError
     record = address_book.find(name)
 
     if record and not is_consent:

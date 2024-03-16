@@ -12,7 +12,7 @@ Mariia Savchuk https://github.com/MashaSavchuk
 
 Ruslan Isupov https://github.com/Ruslan-Isupov
 
-Roman Hubov https://github.com/NkPlast 
+Roman Hubov https://github.com/NkPlast
 
 
 ## Description
@@ -37,7 +37,7 @@ The CLI Contact Book and Notes App is a command-line tool designed to help you m
   - Search for notes using both keywords and tags at the same time.
   - Attach and detach tags from specific notes.
   - Erase either the text or the tags within a note.
-  
+
 
 ## Getting Started:
 
@@ -55,14 +55,14 @@ Installation:
 
 Usage: Run main.py from application and follow the instructions and use bot commands.
 
-The app provides a set of commands to interact with your contact list and notes.   
+The app provides a set of commands to interact with your contact list and notes.
 
 
 ### Bot Commands
 
 The following commands are supported by the bot:
 
-hello: Welcoming command
+help: Show available commands and their descriptions.
 
 add-contact [name] [phone]: Add a new contact with a name and phone number.
 change-phone [name] [new phone]: Change the phone number for a specified contact.
@@ -88,11 +88,11 @@ naad first prompt: [text]:  Add text
 nfind [keywords #tags]: Search by keywords and tags
 nedit	[id]
 	next prompt: [new-text] || [clear] (optional)		New text. Skip if nothing. Delete text if 'clear'
-	next prompt: [new-tags] || [clear] (optional)		New tags. Skip if nothing. Delete text if 'clear' 			
+	next prompt: [new-tags] || [clear] (optional)		New tags. Skip if nothing. Delete text if 'clear'
 ndel	[id]:	Delete note
 note	[id]:	Show note with "id"
 
-close or exit: Close the program.
+close: Close the program.
 
 
 ### Examples
