@@ -31,8 +31,8 @@ def change_contact(args, address_book):
     except:
         raise ValueError("The command is bad. Give me name and phone please.")
 
-    if not bool(re.fullmatch(PHONE_MASK, phone)):
-        raise TypeError
+    # if not bool(re.fullmatch(PHONE_MASK, phone)):
+    #     raise TypeError
 
     record = address_book.find(name)
 
@@ -45,17 +45,21 @@ def change_contact(args, address_book):
 
 
 @input_error
-def contact_phone(args, address_book):
+def show_phone(args, address_book):
 
     try:
         name = args[0]
-    except IndexError:
+    except:
         raise ValueError("The command is bad. Give me name")
 
-    if name not in address_book:
-        return f"There isn't a contacts with name {name}"
-
-    return address_book[name]
+    record = address_book.find(name)
+    if record:
+        if record.phone:
+            return f"Phone of {name}: {record.phone}"
+        else:
+            return f"Phone not set for {name}"
+    else:
+        return f"No contact found with name {name}"
 
 
 @input_error
