@@ -17,7 +17,8 @@ Roman Hubov https://github.com/NkPlast
 
 ## Description
 
-The CLI Contact Book and Notes App is a command-line tool designed to help you manage your contacts and take notes efficiently. It provides a simple and intuitive interface to add, view, update, and delete contact's information, as well as create and organize notes.
+The CLI Contact Book and Notes App is a command-line tool designed to help you manage your contacts and take notes efficiently.
+It provides a simple and intuitive interface to add, view, update, and delete contact's information, as well as create and organize notes.
 
 
 ## Features
@@ -62,37 +63,39 @@ The app provides a set of commands to interact with your contact list and notes.
 
 The following commands are supported by the bot:
 
-help: Show available commands and their descriptions.
-
-add-contact [name] [phone]: Add a new contact with a name and phone number.
-change-phone [name] [new phone]: Change the phone number for a specified contact.
-show-phone [name]: Show phone of specific contact
-show-contacts: Show all contacts
-
-add-address [name] [address]: Add address
-change-address [name] [old_address ] [new_address ]: Change address for specific contact
-show-address [name]:Show address for specific contact
-delete-address [name]  [address ]: Delete address for selected user
-
-add-email "[name]" "[email]": Add email for selected user
-change-email "[name]" "[old_email]" "[new_email]": Change email for specific contact
-show-email "[name]":Show email for specific contact
-delete-email "[name]" "[email]": Delete email for selected user
-
-add-birthday "[name]" "[birth date]": Add a date of birth for a specified contact in format 01.01.1970
-show-birthday "[name]": Show contact birthday
-next_birthdays "[days]" (default=7 days): Show birthdays that will occur in the period of days passed as parameter. By default used 7 days.
-
-naad first prompt: [text]:  Add text
-    next prompt: [tags] separated by commas (optional): 	Add tags (optional)
-nfind [keywords #tags]: Search by keywords and tags
-nedit	[id]
-	next prompt: [new-text] || [clear] (optional)		New text. Skip if nothing. Delete text if 'clear'
-	next prompt: [new-tags] || [clear] (optional)		New tags. Skip if nothing. Delete text if 'clear'
-ndel	[id]:	Delete note
-note	[id]:	Show note with "id"
-
-close: Close the program.
+| Command                                            | Description                                                                                         |
+|----------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| help                                               | Show available commands and their descriptions.                                                     |
+| **Address Book**                                   |
+| *Phone*                                            |
+| add-contact [name] [phone]                         | Add a new contact with a name and phone number.                                                     |
+| change-phone [name] [new phone]                    | Change the phone number for a specified contact.                                                    |
+| show-phone [name]                                  | Show phone of specific contact                                                                      |
+| show-contacts                                      | Show all contacts                                                                                   |
+| *Address*                                          |
+| add-address [name] [address]                       | Add address                                                                                         |
+| change-address [name] [old_address] [new_address]  | Change address for specific contact                                                                 |
+| show-address [name]                                | Show address for specific contact                                                                   |
+| delete-address [name] [address]                    | Delete address for selected user                                                                    |
+| *Email*                                            |
+| add-email [name] [email]                           | Add email for selected user                                                                         |
+| change-email [name] [old_email] [new_email]        | Change email for specific contact                                                                   |
+| show-email [name]                                  | Show email for specific contact                                                                     |
+| delete-email [name] [email]                        | Delete email for selected user                                                                      |
+| *Birthday*                                         |
+| add-birthday [name] [birth date]                   | Add a date of birth for a specified contact in format 01.01.1970                                    |
+| show-birthday [name]                               | Show contact birthday                                                                               |
+| next_birthdays [days] (default=7 days)             | Show birthdays that will occur in the period of days passed as parameter. By default used 7 days.   |
+| **Notes**                                          |
+| naad first prompt: [text]                          | Add text                                                                                            |
+| next prompt: [tags] separated by commas (optional) | Add tags (optional)                                                                                 |
+| nfind [keywords #tags]                             | Search by keywords and tags                                                                         |
+| nedit [id]                                         | Edit note                                                                                           |
+| next prompt: [new-text] \|\|  [clear] (optional)   | New text. Skip if nothing. Delete text if 'clear'                                                   |
+| next prompt: [new-tags] \|\|  [clear] (optional)   | New tags. Skip if nothing. Delete text if 'clear'                                                   |
+| ndel [id]                                          | Delete note                                                                                         |
+| note [id]                                          | Show note with "id"                                                                                 |
+| close                                              | Close the program.                                                                                  |
 
 
 ### Examples
