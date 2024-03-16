@@ -158,7 +158,7 @@ command_descriptions = {
 def help_command():
     print("Available commands:")
     for command, description in command_descriptions.items():
-        print(f"{command}: {description}")
+        print(f"{(command + ':'):<15} {description}")
 
 
 if __name__ == "__main__":
