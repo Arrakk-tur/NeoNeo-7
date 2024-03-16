@@ -26,9 +26,9 @@ def main():
         user_input = input(f"{blue}Enter a command: {reset}")
         command, *args = parse_input(user_input)
 
-        if command in ["close", "exit"]:
+        if command in "close":
             print("Good bye!")
-            break
+            exit()
 
         elif command == "help":
             help_command()
