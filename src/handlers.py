@@ -24,7 +24,7 @@ def add_contact(args, address_book, is_consent=False):
 
 
 @input_error
-def change_contact(args, address_book):
+def change_phone(args, address_book):
 
     try:
         name, phone = args
@@ -161,14 +161,18 @@ def show_address(args, address_book):
 def delete_address(args, address_book):
 
     try:
-        name, address = args
+
+        name = args[0]
     except:
-        raise ValueError("The command is bad. Give me name and address.")
+
+        raise ValueError("The command is bad. Give me name.")
     record = address_book.find(name)
     if record:
-        record.remove_address(address)
+
+        record.remove_address()
         address_book.add_record(record)
-        return f"Address {address} was deleted"
+
+        return f"Address was deleted"
     else:
         return f"No contact found with name {name}"
 
@@ -228,13 +232,17 @@ def show_email(args, address_book):
 def delete_email(args, address_book):
 
     try:
-        name, email = args
+
+        name = args[0]
     except:
-        raise ValueError("The command is bad. Give me name and email.")
+
+        raise ValueError("The command is bad. Give me name.")
     record = address_book.find(name)
     if record:
-        record.remove_email(email)
+
+        record.remove_email()
         address_book.add_record(record)
-        return f"Address {email} was deleted"
+
+        return f"Email was deleted"
     else:
         return f"No contact found with name {name}"
