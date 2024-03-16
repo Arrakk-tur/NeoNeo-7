@@ -1,43 +1,15 @@
 from src.classes import AddressBook
-from src.handlers import (
-    add_contact,
-    change_contact,
-    contact_phone,
-    all_contacts,
-    add_birthday,
-    show_birthday,
-    next_birthdays,
-    add_address,
-    change_address,
-    show_address,
-    delete_address,
-    add_email,
-    change_email,
-    show_email,
-    delete_email,
-)
-from src.handler_notebook import (
-    add_note,
-    find_notes,
-    modify_note,
-    delete_note,
-    find_note_by_id,
-)
-from src.handler_notebook import notebook
-import re
+from src.handlers import *
+from src.handler_notebook import *
 
-blue = "\033[94m"
-reset = "\033[0m"
-green = "\033[92m"
-red = "\033[91m"
+blue, reset, green, red = "\033[94m", "\033[0m", "\033[92m", "\033[91m"
 
 
 def parse_input(user_input):
     if not user_input.strip():
         return "", []
     cmd, *args = user_input.split()
-    cmd = cmd.strip().lower()
-    return cmd, *args
+    return cmd.strip().lower(), *args
 
 
 def main():
@@ -58,149 +30,74 @@ def main():
             print("Good bye!")
             break
 
-        elif command == "hello":
-            print("How can I help you?")
+        elif command == "help":
+            help_command()
 
-        elif command == "add-contact":
-            response = add_contact(args, contacts)
-
-            if "overwrite" in response:
-                option = input(response)
-                try:
-                    command = parse_input(option)[0]
-                except ValueError:
-                    print("Saving the contact was cancelled")
-                    continue
-
-                if command == "yes":
-                    print(add_contact(args, contacts, True))
-                else:
-                    print("Saving the contact was cancelled")
-            else:
-                print(response)
-
-        elif command == "change-phone":
-            print(change_contact(args, contacts))
-
-        elif command == "show-phone":
-            print(contact_phone(args, contacts))
+        elif command in [
+            "add-contact",
+            "change-phone",
+            "show-phone",
+            "add-birthday",
+            "show-birthday",
+            "next_birthdays",
+            "add-address",
+            "change-address",
+            "show-address",
+            "delete-address",
+            "add-email",
+            "change-email",
+            "show-email",
+            "delete-email",
+        ]:
+            response = globals()[command.replace("-", "_")](args, contacts)
+            print(response)
 
         elif command == "show-contacts":
             print(all_contacts(contacts))
 
-        elif command == "add-birthday":
-            response = add_birthday(args, contacts)
-            print(response)
-
-        elif command == "show-birthday":
-            response = show_birthday(args, contacts)
-            print(response)
-
-        elif command == "next_birthdays":
-            next_birthdays(args, contacts)
-
-        elif command == "add-address":
-            response = add_address(args, contacts)
-            print(response)
-
-        elif command == "change-address":
-            response = change_address(args, contacts)
-            print(response)
-
-        elif command == "show-address":
-            response = show_address(args, contacts)
-            print(response)
-
         elif command == "delete":
-            if args:
-                name = " ".join(args)
-                response = contacts.delete_record(name)
-                print(response)
-            else:
-                print("Please provide a name of the record you want to delete.")
-
-        elif command == "delete-address":
-            response = delete_address(args, contacts)
-            print(response)
+            print(
+                contacts.delete_record(" ".join(args))
+                if args
+                else "Please provide a name to delete."
+            )
 
         elif command == "search":
-            query = " ".join(args)
-            found_records = contacts.search(query)
-            if found_records:
-                for record in found_records:
+            found_records = contacts.search(" ".join(args))
+            print(
+                "\n".join(found_records)
+                if found_records
+                else "No contacts found matching your search."
+            )
 
-                    print(record)
-            else:
-                print("No contacts found matching your search.")
-
-        elif command == "add-email":
-            response = add_email(args, contacts)
-            print(response)
-
-        elif command == "change-email":
-            response = change_email(args, contacts)
-            print(response)
-
-        elif command == "show-email":
-            response = show_email(args, contacts)
-            print(response)
-
-        elif command == "delete-email":
-            response = delete_email(args, contacts)
-            print(response)
-
-        # додавання окремої нотатки
         elif command == "nadd":
-            # отримання тексту нотатки, дозволяються будь-які символи у будь-які послідовності.
-            # Якщо пусто, то скасовує операцію
             note_text = " ".join(args)
-            if not note_text:
+            if note_text:
+                tags = [
+                    tag.strip()
+                    for tag in input(
+                        f"{blue}Enter tags separated by commas (optional): {reset}"
+                    ).split(",")
+                    if tag.strip()
+                ]
+                add_note(note_text, tags)
+                print(f"{green}(^_^) Note was successfully created.{reset}\n")
+            else:
                 print(f"{green}(^_^) No text entered. Note was not created.{reset}\n")
-                continue
 
-            # отримання тегів, валідація тегів
-            while True:
-                tags_input = input(
-                    f"{blue}Enter tags separated by commas (optional): {reset}"
-                ).strip()
-                tags = [tag.strip() for tag in tags_input.split(",") if tag.strip()]
-
-                valid_tags = []
-                invalid_tag_found = False
-
-                for tag in tags:
-                    if re.match(r"^\w+$", tag):
-                        valid_tags.append(tag)
-                    else:
-                        print(
-                            f"{red}(>_<) Tag '{tag}' is invalid."
-                            f" Tags should contain only letters, numbers, and underscores.{reset}"
-                        )
-                        invalid_tag_found = True
-                        break
-                # вихід з головного циклу, якщо всі теги дійсні
-                if not invalid_tag_found:
-                    break
-
-            add_note(note_text, valid_tags)
-            print(f"{green}(^_^) Note was successfully created.{reset}\n")
-
-        # пошук нотатки за тегом та текстом (одночасно)
         elif command == "nfind":
             search_args = " ".join(args)
             tags = [arg for arg in search_args.split() if arg.startswith("#")]
             search_text = " ".join(
                 arg for arg in search_args.split() if not arg.startswith("#")
             )
+            print(find_notes(tags=tags, search_text=search_text))
 
-            response = find_notes(tags=tags, search_text=search_text)
-
-        # редагування нотатки
         elif command == "nedit":
             try:
                 note_id = (
                     int(args[0])
-                    if len(args) > 0
+                    if args
                     else int(input(f"{blue}Enter note ID: {reset}"))
                 )
             except:
@@ -208,46 +105,60 @@ def main():
                 continue
 
             new_text = input(f"{blue}Enter new text for the note: {reset}")
-
-            while True:
-                tags_input = input(
+            tags = [
+                tag.strip()
+                for tag in input(
                     f"{blue}Enter tags separated by commas (optional): {reset}"
-                ).strip()
-                tags = [tag.strip() for tag in tags_input.split(",") if tag.strip()]
+                ).split(",")
+                if tag.strip()
+            ]
+            modify_note(note_id, new_text, tags)
 
-                valid_tags = []
-                invalid_tag_found = False
-
-                for tag in tags:
-                    if re.match(r"^\w+$", tag):
-                        valid_tags.append(tag)
-                    else:
-                        print(
-                            f"{green}(>_<) Tag '{tag}' is invalid. "
-                            f"Tags should contain only letters, numbers, and underscores. "
-                            f"Separate multiple tags with commas.{reset}"
-                        )
-                        invalid_tag_found = True
-                        break
-
-                if not invalid_tag_found:
-                    break
-
-            modify_note(note_id, new_text, valid_tags)
-
-        # видалення нотатки
         elif command == "ndel":
             delete_note(*args)
 
-        # показати нотатку
         elif command == "note":
             find_note_by_id(*args)
 
-        elif command == "":
+        elif not command:
             print(f"{red}No command.{reset}")
 
         else:
             print(f"{red}Invalid command.{reset}")
+
+
+command_descriptions = {
+    "close": "Close the program.",
+    "add-contact": "Add a new contact.",
+    "change-phone": "Change phone number for a contact.",
+    "show-phone": "Show phone number for a contact.",
+    "show-contacts": "Show all contacts.",
+    "add-birthday": "Add birthday for a contact.",
+    "show-birthday": "Show birthday for a contact.",
+    "next_birthdays": "Show upcoming birthdays.",
+    "add-address": "Add address for a contact.",
+    "change-address": "Change address for a contact.",
+    "show-address": "Show address for a contact.",
+    "delete": "Delete a contact.",
+    "delete-address": "Delete address for a contact.",
+    "search": "Search contacts by name.",
+    "add-email": "Add email for a contact.",
+    "change-email": "Change email for a contact.",
+    "show-email": "Show email for a contact.",
+    "delete-email": "Delete email for a contact.",
+    "nadd": "Add a new note.",
+    "nfind": "Find notes by tag or text.",
+    "nedit": "Edit an existing note.",
+    "ndel": "Delete a note.",
+    "note": "Find a note by ID.",
+    "help": "Show available commands and their descriptions.",
+}
+
+
+def help_command():
+    print("Available commands:")
+    for command, description in command_descriptions.items():
+        print(f"{command}: {description}")
 
 
 if __name__ == "__main__":
