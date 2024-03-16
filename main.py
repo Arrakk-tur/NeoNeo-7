@@ -41,14 +41,14 @@ def parse_input(user_input):
 
 
 def main():
+    contacts = AddressBook()
+    print("Welcome to the assistant bot!")
 
     try:
         notebook.load_from_file("notes.json")
+        contacts.load_contacts_from_file()
     except FileNotFoundError:
-        print(f"{green}File not found. Starting with an empty notebook.{reset}")
-
-    contacts = AddressBook()
-    print("Welcome to the assistant bot!")
+        print(f"{green}File not found. Starting with an empty DB.{reset}")
 
     while True:
         user_input = input(f"{blue}Enter a command: {reset}")
@@ -123,17 +123,15 @@ def main():
             response = delete_address(args, contacts)
             print(response)
 
-        
         elif command == "search":
             query = " ".join(args)
             found_records = contacts.search(query)
             if found_records:
                 for record in found_records:
-                    
+
                     print(record)
             else:
                 print("No contacts found matching your search.")
-                
 
         elif command == "add-email":
             response = add_email(args, contacts)
@@ -151,10 +149,10 @@ def main():
             response = delete_email(args, contacts)
             print(response)
 
-
         # додавання окремої нотатки
         elif command == "nadd":
-            # отримання тексту нотатки, дозволяються будь-які символи у будь-які послідовності. Якщо пусто, то скасовує операцію
+            # отримання тексту нотатки, дозволяються будь-які символи у будь-які послідовності.
+            # Якщо пусто, то скасовує операцію
             note_text = " ".join(args)
             if not note_text:
                 print(f"{green}(^_^) No text entered. Note was not created.{reset}\n")
@@ -175,7 +173,8 @@ def main():
                         valid_tags.append(tag)
                     else:
                         print(
-                            f"{red}(>_<) Tag '{tag}' is invalid. Tags should contain only letters, numbers, and underscores.{reset}"
+                            f"{red}(>_<) Tag '{tag}' is invalid."
+                            f" Tags should contain only letters, numbers, and underscores.{reset}"
                         )
                         invalid_tag_found = True
                         break
@@ -224,7 +223,9 @@ def main():
                         valid_tags.append(tag)
                     else:
                         print(
-                            f"{green}(>_<) Tag '{tag}' is invalid. Tags should contain only letters, numbers, and underscores. Separate multiple tags with commas.{reset}"
+                            f"{green}(>_<) Tag '{tag}' is invalid. "
+                            f"Tags should contain only letters, numbers, and underscores. "
+                            f"Separate multiple tags with commas.{reset}"
                         )
                         invalid_tag_found = True
                         break

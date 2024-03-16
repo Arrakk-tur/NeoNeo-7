@@ -1,5 +1,5 @@
 from src.error_handler import input_error
-from src.classes import Record
+from src.classes import Record, AddressBook
 import re
 
 PHONE_MASK = r"^\d{10}$"
@@ -27,7 +27,7 @@ def add_contact(args, address_book, is_consent=False):
 
 
 @input_error
-def change_contact(args, contacts):
+def change_contact(args, address_book):
 
     try:
         name, phone = args
@@ -37,56 +37,36 @@ def change_contact(args, contacts):
     if not bool(re.fullmatch(PHONE_MASK, phone)):
         raise TypeError
 
-    record = contacts.find(name)
+    record = address_book.find(name)
 
     if record:
         record.edit_phone(phone)
+        address_book.add_record(record)
         return "Contact changed"
     else:
         return f"There isn't a contact with name {name}"
 
 
 @input_error
-def contact_phone(args, contacts):
+def contact_phone(args, address_book):
 
     try:
         name = args[0]
     except IndexError:
         raise ValueError("The command is bad. Give me name")
 
-    if name not in contacts:
+    if name not in address_book:
         return f"There isn't a contacts with name {name}"
 
-    return contacts[name]
+    return address_book[name]
 
 
 @input_error
-def all_contacts(contacts):
-    if not contacts:
+def all_contacts(address_book):
+    if not address_book:
         return "No contacts to display."
-
-    max_name_length = max(len(contact) for contact in contacts.keys())
-    contact_list = ""
-
-    for contact in contacts.values():
-        phone = contact.phone if contact.phone else "No phone"
-        birthday = (
-            contact.birthday.value
-            if contact.birthday and contact.birthday.value
-            else "No information"
-        )
-        address = (
-            contact.address.value
-            if contact.address and contact.address.value
-            else "No information"
-        )
-        email = (
-            contact.email.value
-            if contact.email and contact.email.value
-            else "No information"
-        )
-        contact_list += f"{BLUE}{contact.name.value:<{max_name_length}}{ENDC}: phone: {phone}, birthday: {birthday}, address: {address}, email: {email}\n"
-    return contact_list
+    else:
+        [print(i[1]) for i in address_book.items()]
 
 
 @input_error
@@ -95,6 +75,7 @@ def add_birthday(args, address_book):
     record = address_book.find(name)
     if record:
         record.add_birthday(birthday)
+        address_book.add_record(record)
         return f"Birthday added for {name}"
     else:
         return f"No contact found with name {name}"
@@ -105,8 +86,8 @@ def show_birthday(args, address_book):
     name = args[0]
     record = address_book.find(name)
     if record:
-        if record.birthday and record.birthday.value:
-            return f"Birthday of {name}: {record.birthday.value}"
+        if record.birthday:
+            return f"Birthday of {name}: {record.birthday}"
         else:
             return f"Birthday not set for {name}"
     else:
@@ -132,25 +113,27 @@ def add_address(args, address_book):
     record = address_book.find(name)
     if record:
         record.add_address(address)
+        address_book.add_record(record)
         return f"Address added for {name}"
     else:
         return f"No contact found with name {name}"
 
 
 @input_error
-def change_address(args, contacts):
+def change_address(args, address_book):
 
     try:
-        name, old_addrees, new_address = args
+        name, old_address, new_address = args
     except:
         raise ValueError(
             "The command is bad. Give me name, old address and new address."
         )
 
-    record = contacts.find(name)
+    record = address_book.find(name)
 
     if record:
-        record.edit_address(old_addrees, new_address)
+        record.edit_address(old_address, new_address)
+        address_book.add_record(record)
         return "Address changed"
     else:
         return f"There isn't a contact with name {name}"
@@ -165,8 +148,8 @@ def show_address(args, address_book):
 
     record = address_book.find(name)
     if record:
-        if record.address and record.address.value:
-            return f"Address of {name}: {record.address.value}"
+        if record.address:
+            return f"Address of {name}: {record.address}"
         else:
             return f"Address not set for {name}"
     else:
@@ -183,6 +166,7 @@ def delete_address(args, address_book):
     record = address_book.find(name)
     if record:
         record.remove_address(address)
+        address_book.add_record(record)
         return f"Address {address} was deleted"
     else:
         return f"No contact found with name {name}"
@@ -198,23 +182,25 @@ def add_email(args, address_book):
     record = address_book.find(name)
     if record:
         record.add_email(email)
+        address_book.add_record(record)
         return f"Email added for {name}"
     else:
         return f"No contact found with name {name}"
 
 
 @input_error
-def change_email(args, contacts):
+def change_email(args, address_book):
 
     try:
         name, old_email, new_email = args
     except:
         raise ValueError("The command is bad. Give me name, old email and new email.")
 
-    record = contacts.find(name)
+    record = address_book.find(name)
 
     if record:
         record.edit_email(old_email, new_email)
+        address_book.add_record(record)
         return "Email changed"
     else:
         return f"There isn't a contact with name {name}"
@@ -229,8 +215,8 @@ def show_email(args, address_book):
 
     record = address_book.find(name)
     if record:
-        if record.email and record.email.value:
-            return f"Email of {name}: {record.email.value}"
+        if record.email:
+            return f"Email of {name}: {record.email}"
         else:
             return f"Email not set for {name}"
     else:
@@ -247,6 +233,7 @@ def delete_email(args, address_book):
     record = address_book.find(name)
     if record:
         record.remove_email(email)
+        address_book.add_record(record)
         return f"Address {email} was deleted"
     else:
         return f"No contact found with name {name}"
