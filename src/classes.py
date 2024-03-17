@@ -148,12 +148,6 @@ class Record:
             address=data.get("address"),
         )
 
-    # def __str__(self):
-    #     birthday = "" if not self.birthday else f", {YELLOW}birthday{ENDC}: '{self.birthday}'"
-    #     address = "" if not self.address else f", {YELLOW}address{ENDC}: '{self.address}'"
-    #     email = "" if not self.email else f", {YELLOW}email{ENDC}: '{self.email}'"
-    #     return f"{BLUE}{self.name.value}{ENDC}: {YELLOW}phone{ENDC}: '{self.phone.value}'{email}{birthday}{address}, id: '{self.id}'"
-
     def __str__(self):
         address = f"{self.address.value if self.address else '':^20}"
         birthday = f"{self.birthday.value if self.birthday else '':^20}"
@@ -165,7 +159,6 @@ class Record:
 
 
 class AddressBook(UserDict):
-
     def add_record(self, record):
         self.data[record.id] = record
         self.save_contacts_to_file()
@@ -173,10 +166,10 @@ class AddressBook(UserDict):
     def search(self, query):
         result = []
         query = query.lower()
-        for name, record in self.data.items():
-            if query in name.lower():
-                result.append(record)
-        return result
+        for record in self.data.values():
+            if query in record.name.value.lower():
+                result.append(str(record))
+        return result if result else None
 
     def find(self, name):
         for record in self.data.values():
@@ -184,18 +177,17 @@ class AddressBook(UserDict):
                 return record
 
     def delete_record(self, name):
-
-        if name in self.data:
-            del self.data[name]
-            return f"Record {name} has been successfully deleted."
+        to_delete_id = None
+        for record_id, record in self.data.items():
+            if record.name.value.lower() == name.lower():
+                to_delete_id = record_id
+                break
+        if to_delete_id:
+            del self.data[to_delete_id]
+            self.save_contacts_to_file()
+            return f"The entry named {name} was successfully deleted."
         else:
-            return f"Record with name {name} not found."
-        # for record in self.data.values():
-        #     print(record.name.value)
-        #     if record.name.value.lower() == name.lower():
-        #         print(record.id)
-        #         result = self.data.pop(record.id)
-        #         print(result)
+            return f"An entry with the name {name} was not found."
 
     def save_contacts_to_file(self):
         with open(ADDRESS_BOOK_FILE_PATH, "w") as file:
@@ -223,7 +215,8 @@ class AddressBook(UserDict):
         if not upcoming_birthdays:
             print(f"No upcoming birthdays in the next {days} days.")
         else:
-            desc = f"Upcoming birthdays in the next {days} days:"
+            print(f"Upcoming birthdays in the next {days} days:")
+            des = []
             for next_birthday, names in sorted(upcoming_birthdays.items()):
                 day_of_week = WEEKDAYS[next_birthday.weekday()]
                 formatted_names = ", ".join(
@@ -232,5 +225,5 @@ class AddressBook(UserDict):
                         for name in names
                     ]
                 )
-                desc += f"\n{day_of_week:10}: {formatted_names}"
-            print(desc)
+                des.append(f"\n{day_of_week:10}: {formatted_names}")
+            return "".join(des)

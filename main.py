@@ -48,6 +48,7 @@ def main():
             "change-email",
             "show-email",
             "delete-email",
+            "search",
         ]:
             response = globals()[command.replace("-", "_")](args, contacts)
             print(response)
@@ -60,14 +61,6 @@ def main():
                 contacts.delete_record(" ".join(args))
                 if args
                 else "Please provide a name to delete."
-            )
-
-        elif command == "search":
-            found_records = contacts.search(" ".join(args))
-            print(
-                "\n".join(found_records)
-                if found_records
-                else "No contacts found matching your search."
             )
 
         elif command == "nadd":
