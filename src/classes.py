@@ -165,6 +165,7 @@ class Record:
 
 
 class AddressBook(UserDict):
+
     def add_record(self, record):
         self.data[record.id] = record
         self.save_contacts_to_file()
@@ -183,11 +184,18 @@ class AddressBook(UserDict):
                 return record
 
     def delete_record(self, name):
+
         if name in self.data:
             del self.data[name]
             return f"Record {name} has been successfully deleted."
         else:
             return f"Record with name {name} not found."
+        # for record in self.data.values():
+        #     print(record.name.value)
+        #     if record.name.value.lower() == name.lower():
+        #         print(record.id)
+        #         result = self.data.pop(record.id)
+        #         print(result)
 
     def save_contacts_to_file(self):
         with open(ADDRESS_BOOK_FILE_PATH, "w") as file:
