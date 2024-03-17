@@ -17,13 +17,13 @@ def add_contact(args, address_book, is_consent=False):
     except:
         raise ValueError("The command is bad. Give me name and phone please.")
 
-    record = address_book.find(name)
-
-    if record and not is_consent:
-        return f"Here is a contact with name {name} yet. To overwrite? Type yes/no: "
-
-    if not record:
-        record = Record(name)
+    # record = address_book.find(name)
+    #
+    # if record and not is_consent:
+    #     return f"Here is a contact with name {name} yet. To overwrite? Type yes/no: "
+    #
+    # if not record:
+    record = Record(name)
 
     record.add_phone(phone)
     address_book.add_record(record)
@@ -74,12 +74,12 @@ def all_contacts(address_book):
     if not address_book:
         return "No contacts to display."
     else:
-        print(f"{'-' * 124}")
-        print(
-            f"| {'Name':^20} | {'Phone':^20} | {'Email':^20} | {'Birthday':^20} | {'Address':^20} | {'ID':^5} |"
-        )
-        print(f"|{(('-'*22)+'+')*5}-------|")
-        [print(i[1]) for i in address_book.items()]
+        header()
+        contacts = []
+        for record in address_book.values():
+            contacts.append(str(record))
+
+        return "\n".join(contacts)
 
 
 @input_error
@@ -120,11 +120,11 @@ def show_birthday(args, address_book):
 @input_error
 def next_birthdays(args, address_book):
     if len(args) == 0:
-        address_book.next_birthdays()
+        return address_book.next_birthdays()
     else:
         days = args[0]
         try:
-            address_book.next_birthdays(int(days))
+            return address_book.next_birthdays(int(days))
         except:
             raise ValueError(
                 f"{red}The command is bad. Give me an positive integer.{reset}\n"
@@ -273,3 +273,21 @@ def delete_email(args, address_book):
         return f"Email was deleted"
     else:
         return f"No contact found with name {name}"
+
+
+@input_error
+def search(args, address_book):
+    found_records = address_book.search(" ".join(args))
+    if found_records is None:
+        return "No contacts found matching your search."
+    else:
+        header()
+        return "\n".join(found_records)
+
+
+def header():
+    print(f"{'-' * 124}")
+    print(
+        f"| {'Name':^20} | {'Phone':^20} | {'Email':^20} | {'Birthday':^20} | {'Address':^20} | {'ID':^5} |"
+    )
+    print(f"|{(('-' * 22) + '+') * 5}-------|")
