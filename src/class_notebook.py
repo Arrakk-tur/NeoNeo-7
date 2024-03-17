@@ -109,7 +109,7 @@ class Notebook:
             print(f"{green}Note with ID {note_id} has been deleted.{reset}")
             self.save_to_file("notes.json")
         else:
-            print(f"No note found with ID {note_id}.")
+            print(f"{red}No note found with ID {note_id}.{reset}")
 
     def find_note_by_id(self, note_id):
         for note in self.notes:
