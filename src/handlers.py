@@ -8,7 +8,12 @@ ENDC = "\033[0m"
 
 @input_error
 def add_contact(args, address_book, is_consent=False):
-    name, phone = args
+
+    try:
+        name, phone = args
+
+    except:
+        raise ValueError("The command is bad. Give me name and phone please.")
 
     record = address_book.find(name)
 
@@ -77,7 +82,13 @@ def all_contacts(address_book):
 
 @input_error
 def add_birthday(args, address_book):
-    name, birthday = args
+    try:
+        name, birthday = args
+    except:
+        raise ValueError(
+            "The command is bad. Give me name and birthday in format DD.MM.YYYY."
+        )
+
     record = address_book.find(name)
     if record:
         record.add_birthday(birthday)
@@ -89,7 +100,11 @@ def add_birthday(args, address_book):
 
 @input_error
 def show_birthday(args, address_book):
-    name = args[0]
+    try:
+        name = args[0]
+    except:
+        raise ValueError("The command is bad. Give me name")
+
     record = address_book.find(name)
     if record:
         if record.birthday:
