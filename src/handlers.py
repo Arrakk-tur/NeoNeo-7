@@ -2,8 +2,10 @@ from src.error_handler import input_error
 from src.classes import Record, AddressBook
 import re
 
-BLUE = "\033[94m"
-ENDC = "\033[0m"
+blue = "\033[94m"
+reset = "\033[0m"
+green = "\033[92m"
+red = "\033[91m"
 
 
 @input_error
@@ -121,7 +123,12 @@ def next_birthdays(args, address_book):
         address_book.next_birthdays()
     else:
         days = args[0]
-        address_book.next_birthdays(int(days))
+        try:
+            address_book.next_birthdays(int(days))
+        except:
+            raise ValueError(
+                f"{red}The command is bad. Give me an positive integer.{reset}\n"
+            )
 
 
 @input_error

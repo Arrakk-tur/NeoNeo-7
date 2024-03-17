@@ -27,7 +27,7 @@ def find_notes(tags=[], search_text=""):
         found_notes = [note for note in found_notes if search_text in note.text]
 
     if not len(found_notes):
-        print(f"{green}No notes were found matching the search query.{reset}\n")
+        print(f"{red}No notes were found matching the search query.{red}\n")
         return
 
     print(f"\n{green}Your search yielded {len(found_notes)} notes:{reset}\n")
@@ -46,7 +46,7 @@ def modify_note(note_id, new_text="", new_tags=None):
 
     if not new_text and not len(new_tags):
         print(
-            f"{green}The note was not modified as no replacement data was provided.{reset}\n"
+            f"{red}The note was not modified as no replacement data was provided. Give me a new text for note {reset}\n"
         )
     else:
         print(f"{green}The note has been successfully updated.{reset}\n")
@@ -62,9 +62,7 @@ def delete_note(note_id):
         note_id = int(note_id)
         notebook.delete_note(note_id)
     except ValueError:
-        print(
-            f"{red}Invalid note ID: {note_id}. Note ID must be an integer.{reset}\n"
-        )
+        print(f"{red}Invalid note ID: {note_id}. Note ID must be an integer.{reset}\n")
 
 
 @input_error
@@ -73,8 +71,8 @@ def find_note_by_id(note_id):
         note_id = int(note_id)
         note = notebook.find_note_by_id(note_id)
         if not note:
-            print(f'{green}No notes were found with id {note_id}{reset}\n')
-        
+            print(f"{green}No notes were found with id {note_id}{reset}\n")
+
         print_note(note)
     except ValueError:
         print(f"{red}Invalid note ID: {note_id}. Note ID must be an integer.{reset}\n")
