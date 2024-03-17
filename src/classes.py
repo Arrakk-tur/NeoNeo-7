@@ -8,6 +8,7 @@ import calendar
 ADDRESS_BOOK_FILE_PATH = "address_book.json"
 BLUE = "\033[94m"
 ENDC = "\033[0m"
+YELLOW = "\033[93m"
 
 
 class Field:
@@ -147,11 +148,20 @@ class Record:
             address=data.get("address"),
         )
 
+    # def __str__(self):
+    #     birthday = "" if not self.birthday else f", {YELLOW}birthday{ENDC}: '{self.birthday}'"
+    #     address = "" if not self.address else f", {YELLOW}address{ENDC}: '{self.address}'"
+    #     email = "" if not self.email else f", {YELLOW}email{ENDC}: '{self.email}'"
+    #     return f"{BLUE}{self.name.value}{ENDC}: {YELLOW}phone{ENDC}: '{self.phone.value}'{email}{birthday}{address}, id: '{self.id}'"
+
     def __str__(self):
-        birthday = "" if not self.birthday else f", birthday: {self.birthday}"
-        address = "" if not self.address else f", address: {self.address}"
-        email = "" if not self.email else f", email: {self.email}"
-        return f"{BLUE}{self.name.value}{ENDC}: phone: {self.phone.value if self.phone else 'Not set'}{birthday}{address}{email}, id: {self.id}"
+        address = f"{self.address.value if self.address else '':^20}"
+        birthday = f"{self.birthday.value if self.birthday else '':^20}"
+        email = f"{self.email.value if self.email else '':^20}"
+        phone = f"{self.phone.value:^20}"
+        separator = f"|{(('-'*22)+'+')*5}-------|"
+        contact_info = f"| {YELLOW}{self.name.value:<20}{ENDC} | {phone} | {email} | {birthday} | {address} | {self.id:^5} |"
+        return f"{contact_info}\n{separator}"
 
 
 class AddressBook(UserDict):
@@ -201,7 +211,7 @@ class AddressBook(UserDict):
                 bday = datetime.strptime(record.birthday.value, "%d.%m.%Y").date()
                 next_birthday = datetime(CURRENT_DATE.year, bday.month, bday.day).date()
                 if CURRENT_DATE <= next_birthday <= CURRENT_DATE + timedelta(days=days):
-                    upcoming_birthdays[next_birthday].append(name)
+                    upcoming_birthdays[next_birthday].append(record.name)
         if not upcoming_birthdays:
             print(f"No upcoming birthdays in the next {days} days.")
         else:
@@ -209,7 +219,10 @@ class AddressBook(UserDict):
             for next_birthday, names in sorted(upcoming_birthdays.items()):
                 day_of_week = WEEKDAYS[next_birthday.weekday()]
                 formatted_names = ", ".join(
-                    [f"{name} ({next_birthday.strftime('%d.%m.%Y')})" for name in names]
+                    [
+                        f"{YELLOW}{name}{ENDC} ({next_birthday.strftime('%d.%m.%Y')})"
+                        for name in names
+                    ]
                 )
-                desc += f"\n{day_of_week}: {formatted_names}"
+                desc += f"\n{day_of_week:10}: {formatted_names}"
             print(desc)

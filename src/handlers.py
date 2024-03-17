@@ -67,6 +67,11 @@ def all_contacts(address_book):
     if not address_book:
         return "No contacts to display."
     else:
+        print(f"{'-' * 124}")
+        print(
+            f"| {'Name':^20} | {'Phone':^20} | {'Email':^20} | {'Birthday':^20} | {'Address':^20} | {'ID':^5} |"
+        )
+        print(f"|{(('-'*22)+'+')*5}-------|")
         [print(i[1]) for i in address_book.items()]
 
 
