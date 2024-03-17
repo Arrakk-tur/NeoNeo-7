@@ -83,7 +83,9 @@ def main():
                 add_note(note_text, tags)
                 print(f"{green}Note was successfully created.{reset}\n")
             else:
-                print(f"{green}(No text entered. Note was not created.{reset}\n")
+                print(
+                    f"{red}No text entered. Note was not created. Give me a text for note.{reset}\n"
+                )
 
         elif command == "nfind":
             search_args = " ".join(args)
@@ -95,19 +97,19 @@ def main():
 
         elif command == "nedit":
             if not args:
-                print(f"{red}Enter note ID.{reset}")
+                print(f"{red}Enter note ID(a positive integer).{reset}")
                 continue
 
             try:
-                note_id = (int(args[0]))
+                note_id = int(args[0])
 
                 note = notebook.find_note_by_id(note_id)
                 if note is None:
                     print(f"{red}There is no notates with id {note_id}.{reset}\n")
                     continue
-                
+
             except:
-                print(f"{red}Invalid input.{reset}")
+                print(f"{red}Invalid input. Give me id(a positive integer).{reset}")
                 continue
 
             new_text = input(f"{blue}Enter new text for the note: {reset}")
@@ -119,17 +121,20 @@ def main():
                 if tag.strip()
             ]
             modify_note(note_id, new_text, tags)
-            
 
         elif command == "ndel":
             if not args:
-                print(f"{red}No note ID provided. Please enter a note ID.{reset}\n")
+                print(
+                    f"{red}No note ID provided. Please enter a note ID(a positive integer).{reset}\n"
+                )
             else:
                 delete_note(*args)
 
         elif command == "note":
             if not args:
-                print(f"{red}No note ID provided. Please enter a note ID.{reset}\n")
+                print(
+                    f"{red}No note ID provided. Please enter a note ID(a positive integer).{reset}\n"
+                )
             else:
                 find_note_by_id(*args)
 
