@@ -11,8 +11,8 @@
         "id": 2,
         "text": "jvaskjflasjfla sjlfkdlfgjd",
         "tags": [
-            "ter3",
-            "ter1"
+            "ter1",
+            "ter3"
         ],
         "creation_date": "2024-03-14 19:53:44"
     },
@@ -40,5 +40,55 @@
             "rrr"
         ],
         "creation_date": "2024-03-14 21:39:44"
+    },
+    {
+        "id": 6,
+        "text": "hdfhs fdlhs adfh sdfjh",
+        "tags": [
+            "yyy"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+        {
+        "id": 7,
+        "text":     "Why does James Bond always carry a gun? Because his greatest weapon is his armed wit.",
+        "tags": ["joke", "James Bond"],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 8,
+        "text":     "What’s James Bond’s favorite way to go into a bar? Through the secret entrance.",
+        "tags": ["joke", "James Bond"],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 9,
+        "text":     "What do you call James Bond taking a bath? Bubble 07.",
+        "tags": ["joke", "James Bond"],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 10,
+        "text":     "Why was James Bond known as a great worker? Because he always had a license to kill time.",
+        "tags": ["joke", "James Bond"],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 11,
+        "text":     "Why did James Bond become a baker? He had a knack for making rolls disappear.",
+        "tags": ["joke", "James Bond"],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 12,
+        "text":     "What’s James Bond’s least favorite game? 'I spy.'",
+        "tags": ["joke", "James Bond"],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 13,
+        "text":     "How does James Bond always know everything? He’s Bond, James Bond.",
+        "tags": ["joke", "James Bond"],
+        "creation_date": "2024-03-17 13:25:07"
     }
 ]

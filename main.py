@@ -91,7 +91,7 @@ def main():
             search_text = " ".join(
                 arg for arg in search_args.split() if not arg.startswith("#")
             )
-            print(find_notes(tags=tags, search_text=search_text))
+            find_notes(tags=tags, search_text=search_text)
 
         elif command == "nedit":
             try:
