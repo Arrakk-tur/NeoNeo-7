@@ -74,9 +74,11 @@ def main():
                     if tag.strip()
                 ]
                 add_note(note_text, tags)
-                print(f"{green}(^_^) Note was successfully created.{reset}\n")
+                print(f"{green}Note was successfully created.{reset}\n")
             else:
-                print(f"{green}(^_^) No text entered. Note was not created.{reset}\n")
+                print(
+                    f"{red}No text entered. Note was not created. Give me a text for note.{reset}\n"
+                )
 
         elif command == "nfind":
             search_args = " ".join(args)
@@ -87,14 +89,20 @@ def main():
             find_notes(tags=tags, search_text=search_text)
 
         elif command == "nedit":
+            if not args:
+                print(f"{red}Enter note ID(a positive integer).{reset}")
+                continue
+
             try:
-                note_id = (
-                    int(args[0])
-                    if args
-                    else int(input(f"{blue}Enter note ID: {reset}"))
-                )
+                note_id = int(args[0])
+
+                note = notebook.find_note_by_id(note_id)
+                if note is None:
+                    print(f"{red}There is no notates with id {note_id}.{reset}\n")
+                    continue
+
             except:
-                print(f"{red}(>_<) Invalid input.{reset}")
+                print(f"{red}Invalid input. Give me id(a positive integer).{reset}")
                 continue
 
             new_text = input(f"{blue}Enter new text for the note: {reset}")
@@ -108,10 +116,20 @@ def main():
             modify_note(note_id, new_text, tags)
 
         elif command == "ndel":
-            delete_note(*args)
+            if not args:
+                print(
+                    f"{red}No note ID provided. Please enter a note ID(a positive integer).{reset}\n"
+                )
+            else:
+                delete_note(*args)
 
         elif command == "note":
-            find_note_by_id(*args)
+            if not args:
+                print(
+                    f"{red}No note ID provided. Please enter a note ID(a positive integer).{reset}\n"
+                )
+            else:
+                find_note_by_id(*args)
 
         elif not command:
             print(f"{red}No command.{reset}")
