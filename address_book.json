@@ -30,13 +30,5 @@
         "birthday": null,
         "email": null,
         "address": null
-    },
-    {
-        "id": 5,
-        "name": "qaz",
-        "phone": "0147852369",
-        "birthday": null,
-        "email": null,
-        "address": null
     }
 ]
