@@ -184,12 +184,19 @@ class AddressBook(UserDict):
                 return record
 
     def delete_record(self, name):
+        to_delete_id = None
+        for record_id, record in self.data.items():
+            if record.name.value.lower() == name.lower():
+                to_delete_id = record_id
+                break
 
-        if name in self.data:
-            del self.data[name]
-            return f"Record {name} has been successfully deleted."
+        if to_delete_id:
+            del self.data[to_delete_id]
+            self.save_contacts_to_file()
+            return f"Запись с именем {name} была успешно удалена."
         else:
-            return f"Record with name {name} not found."
+            return f"Запись с именем {name} не найдена."
+
         # for record in self.data.values():
         #     print(record.name.value)
         #     if record.name.value.lower() == name.lower():
