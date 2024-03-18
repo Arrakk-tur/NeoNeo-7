@@ -1,10 +1,7 @@
 from datetime import datetime
 import json
 
-blue = "\033[94m"
-reset = "\033[0m"
-green = "\033[92m"
-red = "\033[91m"
+blue, reset, green, red, yellow = "\033[94m", "\033[0m", "\033[92m", "\033[91m", "\033[93m"
 
 
 class Note:
@@ -79,7 +76,9 @@ class Notebook:
                     new_text = ""
 
                 note.modify(new_text)
-                print(f"{green}Text of the Note with ID {note_id} has been modified.{reset}")
+                print(
+                    f"{green}Text of the Note with ID {note_id} has been modified.{reset}"
+                )
                 self.save_to_file("notes.json")
                 break
 
@@ -89,11 +88,13 @@ class Notebook:
                 if new_tags == ["clear"]:
                     note.set_tags(set())
                     print(
-                        f"{green}All tags of the Note with ID {note_id} have been cleared.\n{reset}"
+                        f"{green}All tags of the Note with ID {note_id} have been cleared.{reset}"
                     )
                 else:
                     note.set_tags(new_tags)
-                    print(f"{green}Tags of the Note with ID {note_id} has been modified.{reset}\n")
+                    print(
+                        f"{green}Tags of the Note with ID {note_id} has been modified.{reset}\n"
+                    )
 
         self.save_to_file("notes.json")
 
@@ -109,7 +110,7 @@ class Notebook:
             print(f"{green}Note with ID {note_id} has been deleted.{reset}")
             self.save_to_file("notes.json")
         else:
-            print(f"No note found with ID {note_id}.")
+            print(f"{red}No notes found with ID {note_id}.{reset}\n")
 
     def find_note_by_id(self, note_id):
         for note in self.notes:

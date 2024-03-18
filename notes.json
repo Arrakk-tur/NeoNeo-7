@@ -1,30 +1,5 @@
 [
     {
-        "id": 1,
-        "text": "slfj ljfl jasjsfalj",
-        "tags": [
-            "ffff"
-        ],
-        "creation_date": "2024-03-14 19:35:01"
-    },
-    {
-        "id": 2,
-        "text": "jvaskjflasjfla sjlfkdlfgjd",
-        "tags": [
-            "ter3",
-            "ter1"
-        ],
-        "creation_date": "2024-03-14 19:53:44"
-    },
-    {
-        "id": 3,
-        "text": "dsf sdf dsfa sadf sd",
-        "tags": [
-            "gggg"
-        ],
-        "creation_date": "2024-03-14 20:21:03"
-    },
-    {
         "id": 4,
         "text": "note 3",
         "tags": [
@@ -36,9 +11,80 @@
         "id": 5,
         "text": "jkdslfls kfjos fjojf owhfo wefsadfdjf slajf sajflsajdf sajf lsajfouauf oaslfj lkjs",
         "tags": [
-            "ttt",
-            "rrr"
+            "rrr",
+            "ttt"
         ],
         "creation_date": "2024-03-14 21:39:44"
+    },
+    {
+        "id": 6,
+        "text": "hdfhs fdlhs adfh sdfjh",
+        "tags": [
+            "yyy"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 7,
+        "text": "Why does James Bond always carry a gun? Because his greatest weapon is his armed wit.",
+        "tags": [
+            "bond",
+            "joke"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 8,
+        "text": "What`s James Bond`s favorite way to go into a bar? Through the secret entrance.",
+        "tags": [
+            "bond",
+            "joke"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 9,
+        "text": "What do you call James Bond taking a bath? Bubble 07.",
+        "tags": [
+            "bond",
+            "joke"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 10,
+        "text": "Why was James Bond known as a great worker? Because he always had a license to kill time.",
+        "tags": [
+            "bond",
+            "joke"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 11,
+        "text": "Why did James Bond become a baker? He had a knack for making rolls disappear.",
+        "tags": [
+            "bond",
+            "joke"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 12,
+        "text": "What`s James Bond`s least favorite game? 'I spy.'",
+        "tags": [
+            "bond",
+            "joke"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
+    },
+    {
+        "id": 13,
+        "text": "How does James Bond always know everything? He`s Bond, James Bond.",
+        "tags": [
+            "bond",
+            "joke"
+        ],
+        "creation_date": "2024-03-17 13:25:07"
     }
 ]
