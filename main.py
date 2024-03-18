@@ -6,6 +6,15 @@ blue, reset, green, red, yellow = "\033[94m", "\033[0m", "\033[92m", "\033[91m",
 
 
 def parse_input(user_input):
+    """
+        Parses user input and extracts the command and arguments.
+
+        Args:
+            user_input (str): The input string provided by the user.
+
+        Returns:
+            tuple: A tuple containing the command (lowercased) and a list of arguments.
+        """
     if not user_input.strip():
         return "", []
     cmd, *args = user_input.split()
@@ -13,6 +22,39 @@ def parse_input(user_input):
 
 
 def main():
+    """
+        Entry point for the address book and notes application.
+
+        This function initializes the address book and note storage,
+        loads existing data if available, and prompts the user for commands.
+
+        Commands:
+        - 'close': Exits the application.
+        - 'help': Displays a list of available commands and their descriptions.
+        - 'add-contact': Adds a new contact to the address book.
+        - 'change-phone': Changes the phone number of a contact.
+        - 'show-phone': Displays the phone number of a contact.
+        - 'add-birthday': Adds a birthday to a contact's record.
+        - 'show-birthday': Displays the birthday of a contact.
+        - 'next_birthdays': Displays upcoming birthdays.
+        - 'add-address': Adds an address to a contact's record.
+        - 'change-address': Changes the address of a contact.
+        - 'show-address': Displays the address of a contact.
+        - 'delete-address': Deletes the address of a contact.
+        - 'add-email': Adds an email address to a contact's record.
+        - 'change-email': Changes the email address of a contact.
+        - 'show-email': Displays the email address of a contact.
+        - 'delete-email': Deletes the email address of a contact.
+        - 'search': Searches for a contact by name.
+        - 'show-contacts': Displays all contacts in the address book.
+        - 'delete': Deletes a contact by name.
+        - 'nadd': Adds a new note with optional tags.
+        - 'nfind': Finds notes based on text and/or tags.
+        - 'nedit': Edits an existing note's text and/or tags.
+        - 'ndel': Deletes a note by ID.
+        - 'note': Finds a note by ID.
+        """
+
     contacts = AddressBook()
     print(f"{yellow}Welcome back Agent.\nI'm glad to see you alive.{reset}\n")
 
@@ -20,7 +62,7 @@ def main():
         notebook.load_from_file("notes.json")
         contacts.load_contacts_from_file()
     except FileNotFoundError:
-        print(f"{red}File not found. Starting with an empty DB.{reset}")
+        print(f"{blue}DB is empty. Starting with an empty DB.{reset}")
 
     while True:
         user_input = input(f"{blue}Enter a command: {reset}")
@@ -167,6 +209,16 @@ command_descriptions = {
 
 
 def help_command():
+    """
+    Displays a list of available commands and their descriptions.
+
+    Usage:
+        Call this function to print the available commands and their descriptions.
+
+    Example:
+        help_command()
+
+    """
     print("Available commands:")
     for command, description in command_descriptions.items():
         print(f"{green}{(command + ':'):<15}{reset} {description}")
