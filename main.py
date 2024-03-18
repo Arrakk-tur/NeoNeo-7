@@ -60,7 +60,7 @@ def main():
             print(
                 contacts.delete_record(" ".join(args))
                 if args
-                else "Please provide a name to delete."
+                else f"{red}The comand is bad. Give me a name{reset}\n"
             )
 
         elif command == "nadd":
