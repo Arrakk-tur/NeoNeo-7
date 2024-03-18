@@ -14,20 +14,20 @@ def parse_input(user_input):
 
 def main():
     contacts = AddressBook()
-    print("Welcome to the assistant bot!")
+    print(f"{blue}Welcome to the assistant bot!{reset}\n")
 
     try:
         notebook.load_from_file("notes.json")
         contacts.load_contacts_from_file()
     except FileNotFoundError:
-        print(f"{green}File not found. Starting with an empty DB.{reset}")
+        print(f"{blue}File not found. Starting with an empty DB.{reset}")
 
     while True:
         user_input = input(f"{blue}Enter a command: {reset}")
         command, *args = parse_input(user_input)
 
         if command in "close":
-            print("Good bye!")
+            print(f"{blue}Good bye!{reset}")
             exit()
 
         elif command == "help":
@@ -74,7 +74,7 @@ def main():
                     if tag.strip()
                 ]
                 add_note(note_text, tags)
-                print(f"{green}Note was successfully created.{reset}\n")
+                print(f"{green}Note was successfully created.{reset}")
             else:
                 print(
                     f"{red}No text entered. Note was not created. Give me a text for note.{reset}\n"
@@ -90,7 +90,7 @@ def main():
 
         elif command == "nedit":
             if not args:
-                print(f"{red}Enter note ID(a positive integer).{reset}")
+                print(f"{red}Enter note ID(a positive integer).{reset}\n")
                 continue
 
             try:
@@ -102,7 +102,7 @@ def main():
                     continue
 
             except:
-                print(f"{red}Invalid input. Give me id(a positive integer).{reset}")
+                print(f"{red}Invalid input. Give me id(a positive integer).{reset}\n")
                 continue
 
             new_text = input(f"{blue}Enter new text for the note: {reset}")
