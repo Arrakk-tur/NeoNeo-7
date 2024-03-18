@@ -2,10 +2,8 @@ from src.class_notebook import Notebook
 from src.error_handler import input_error
 from datetime import datetime
 
-blue = "\033[94m"
-reset = "\033[0m"
-green = "\033[92m"
-red = "\033[91m"
+blue, reset, green, red, yellow = "\033[94m", "\033[0m", "\033[92m", "\033[91m", "\033[93m"
+
 
 notebook = Notebook()
 

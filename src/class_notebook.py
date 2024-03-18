@@ -1,10 +1,7 @@
 from datetime import datetime
 import json
 
-blue = "\033[94m"
-reset = "\033[0m"
-green = "\033[92m"
-red = "\033[91m"
+blue, reset, green, red, yellow = "\033[94m", "\033[0m", "\033[92m", "\033[91m", "\033[93m"
 
 
 class Note:

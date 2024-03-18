@@ -3,10 +3,7 @@ from src.classes import Record, AddressBook
 import re
 
 
-blue = "\033[94m"
-reset = "\033[0m"
-green = "\033[92m"
-red = "\033[91m"
+blue, reset, green, red, yellow = "\033[94m", "\033[0m", "\033[92m", "\033[91m", "\033[93m"
 
 
 @input_error
@@ -30,7 +27,7 @@ def add_contact(args, address_book, is_consent=False):
 
     record.add_phone(phone)
     address_book.add_record(record)
-    return f"{green}Contact added.{reset}"
+    return f"{green}Contact {yellow}{name} {green}added successfully.{reset}"
 
 
 @input_error
@@ -53,7 +50,7 @@ def change_phone(args, address_book):
         address_book.add_record(record)
         return f"{green}Contact changed.{reset}"
     else:
-        return f"{red}There isn't a contact with name {name}.{reset}\n"
+        return f"{red}There isn't a contact with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -67,11 +64,11 @@ def show_phone(args, address_book):
     record = address_book.find(name)
     if record:
         if record.phone:
-            return f"{green}Phone of {name}: {record.phone}.{reset}"
+            return f"{green}Phone of {yellow}{name}: {record.phone}.{reset}"
         else:
-            return f"{red}Phone not set for {name}.{reset}\n"
+            return f"{red}Phone not set for {yellow}{name}.{reset}\n"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -100,9 +97,9 @@ def add_birthday(args, address_book):
     if record:
         record.add_birthday(birthday)
         address_book.add_record(record)
-        return f"{green}Birthday added for {name}.{reset}"
+        return f"{green}Birthday added for {yellow}{name}.{reset}"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -115,11 +112,11 @@ def show_birthday(args, address_book):
     record = address_book.find(name)
     if record:
         if record.birthday:
-            return f"{green}Birthday of {name}: {record.birthday}.{reset}"
+            return f"{green}Birthday of {yellow}{name}: {green}{record.birthday}.{reset}"
         else:
-            return f"{red}Birthday not set for {name}.{reset}\n"
+            return f"{red}Birthday not set for {yellow}{name}.{reset}\n"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -147,9 +144,9 @@ def add_address(args, address_book):
     if record:
         record.add_address(address)
         address_book.add_record(record)
-        return f"{green}Address added for {name}.{reset}"
+        return f"{green}Address added for {yellow}{name}.{reset}"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -169,7 +166,7 @@ def change_address(args, address_book):
         address_book.add_record(record)
         return f"{green}Address changed.{reset}"
     else:
-        return f"{red}There isn't a contact with name {name}.{reset}\n"
+        return f"{red}There isn't a contact with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -182,11 +179,11 @@ def show_address(args, address_book):
     record = address_book.find(name)
     if record:
         if record.address:
-            return f"{green}Address of {name}: {record.address}.{reset}"
+            return f"{green}Address of {yellow}{name}: {green}{record.address}.{reset}"
         else:
-            return f"{red}Address not set for {name}.{reset}\n"
+            return f"{red}Address not set for {yellow}{name}.{reset}\n"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -206,7 +203,7 @@ def delete_address(args, address_book):
 
         return f"{green}Address was deleted{reset}"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -220,9 +217,9 @@ def add_email(args, address_book):
     if record:
         record.add_email(email)
         address_book.add_record(record)
-        return f"{green}Email added for {name}.{reset}"
+        return f"{green}Email added for {yellow}{name}.{reset}"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -242,7 +239,7 @@ def change_email(args, address_book):
         address_book.add_record(record)
         return f"{green}Email changed.{reset}"
     else:
-        return f"{red}There isn't a contact with name {name}.{reset}\n"
+        return f"{red}There isn't a contact with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -255,11 +252,11 @@ def show_email(args, address_book):
     record = address_book.find(name)
     if record:
         if record.email:
-            return f"{green}Email of {name}: {record.email}.{reset}"
+            return f"{green}Email of {yellow}{yellow}{name}{green}: {record.email}.{reset}"
         else:
-            return f"{red}Email not set for {name}.{reset}\n"
+            return f"{red}Email not set for {yellow}{name}.{reset}\n"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error
@@ -279,7 +276,7 @@ def delete_email(args, address_book):
 
         return f"{green}Email was deleted.{reset}"
     else:
-        return f"{red}No contact found with name {name}.{reset}\n"
+        return f"{red}No contact found with name {yellow}{name}.{reset}\n"
 
 
 @input_error

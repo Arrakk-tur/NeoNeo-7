@@ -2,7 +2,7 @@ from src.classes import AddressBook
 from src.handlers import *
 from src.handler_notebook import *
 
-blue, reset, green, red = "\033[94m", "\033[0m", "\033[92m", "\033[91m"
+blue, reset, green, red, yellow = "\033[94m", "\033[0m", "\033[92m", "\033[91m", "\033[93m"
 
 
 def parse_input(user_input):
@@ -14,20 +14,20 @@ def parse_input(user_input):
 
 def main():
     contacts = AddressBook()
-    print(f"{blue}Welcome to the assistant bot!{reset}\n")
+    print(f"{yellow}Welcome back Agent.\nI'm glad to see you alive.{reset}\n")
 
     try:
         notebook.load_from_file("notes.json")
         contacts.load_contacts_from_file()
     except FileNotFoundError:
-        print(f"{blue}File not found. Starting with an empty DB.{reset}")
+        print(f"{red}File not found. Starting with an empty DB.{reset}")
 
     while True:
         user_input = input(f"{blue}Enter a command: {reset}")
         command, *args = parse_input(user_input)
 
         if command in "close":
-            print(f"{blue}Good bye!{reset}")
+            print(f"{yellow}Bye!\nI hope to see you alive next time.{reset}")
             exit()
 
         elif command == "help":
@@ -60,7 +60,7 @@ def main():
             print(
                 contacts.delete_record(" ".join(args))
                 if args
-                else f"{red}The comand is bad. Give me a name{reset}\n"
+                else f"{red}The command is bad. Give me a name{reset}\n"
             )
 
         elif command == "nadd":
@@ -139,7 +139,6 @@ def main():
 
 
 command_descriptions = {
-    "close": "Close the program.",
     "add-contact": "Add a new contact.",
     "change-phone": "Change phone number for a contact.",
     "show-phone": "Show phone number for a contact.",
@@ -163,13 +162,14 @@ command_descriptions = {
     "ndel": "Delete a note.",
     "note": "Find a note by ID.",
     "help": "Show available commands and their descriptions.",
+    "close": "Close the program."
 }
 
 
 def help_command():
     print("Available commands:")
     for command, description in command_descriptions.items():
-        print(f"{(command + ':'):<15} {description}")
+        print(f"{green}{(command + ':'):<15}{reset} {description}")
 
 
 if __name__ == "__main__":
