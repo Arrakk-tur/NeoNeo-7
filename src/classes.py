@@ -216,9 +216,9 @@ class AddressBook(UserDict):
                 if CURRENT_DATE <= next_birthday <= CURRENT_DATE + timedelta(days=days):
                     upcoming_birthdays[next_birthday].append(record.name)
         if not upcoming_birthdays:
-            print(f"{blue}No upcoming birthdays in the next {days} days.{reset}\n")
+            print(f"{blue}No upcoming birthdays in the next {days} days.{reset}")
         else:
-            print(f"{blue}Upcoming birthdays in the next {days} days:{reset}\n")
+            print(f"{blue}Upcoming birthdays in the next {days} days:{reset}")
             des = []
             for next_birthday, names in sorted(upcoming_birthdays.items()):
                 day_of_week = WEEKDAYS[next_birthday.weekday()]
