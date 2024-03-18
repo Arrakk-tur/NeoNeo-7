@@ -1,22 +1,6 @@
 [
     {
         "id": 1,
-        "name": "re",
-        "phone": "1234567895",
-        "birthday": "12.04.1985",
-        "email": "q@q.com",
-        "address": "ksjfkdjf"
-    },
-    {
-        "id": 2,
-        "name": "fsdfsfdfdf",
-        "phone": "1234567896",
-        "birthday": null,
-        "email": null,
-        "address": "sssgdgfgfgfh"
-    },
-    {
-        "id": 3,
         "name": "James",
         "phone": "0987654321",
         "birthday": "12.04.1925",
@@ -24,11 +8,51 @@
         "address": null
     },
     {
+        "id": 2,
+        "name": "Q",
+        "phone": "1234567896",
+        "birthday": null,
+        "email": null,
+        "address": "TopSecret"
+    },
+    {
+        "id": 3,
+        "name": "M",
+        "phone": "1234567895",
+        "birthday": null,
+        "email": null,
+        "address": "MI6"
+    },
+    {
         "id": 4,
-        "name": "fsdfsdfsdfdfd",
+        "name": "R",
         "phone": "4567891236",
         "birthday": null,
         "email": null,
         "address": null
+    },
+    {
+        "id": 5,
+        "name": "T",
+        "phone": "1234567894",
+        "birthday": null,
+        "email": null,
+        "address": null
+    },
+    {
+        "id": 6,
+        "name": "Z",
+        "phone": "1234567898",
+        "birthday": null,
+        "email": null,
+        "address": null
+    },
+    {
+        "id": 7,
+        "name": "puylo",
+        "phone": "1234567899",
+        "birthday": "07.10.1952",
+        "email": "pu@lo.net",
+        "address": "moscow"
     }
 ]

@@ -10,11 +10,25 @@ notebook = Notebook()
 
 @input_error
 def add_note(text, tags=None):
+    """
+    Adds a new note to the notebook.
+
+    Args:
+        text (str): The content of the note.
+        tags (list, optional): List of tags associated with the note. Defaults to None.
+    """
     notebook.add_note(text, tags)
 
 
 @input_error
 def find_notes(tags=[], search_text=""):
+    """
+    Finds notes based on tags and/or text content.
+
+    Args:
+        tags (list, optional): List of tags to search for. Defaults to [].
+        search_text (str, optional): Text to search for within notes. Defaults to "".
+    """
     found_notes = notebook.notes
 
     if len(tags):
@@ -36,6 +50,14 @@ def find_notes(tags=[], search_text=""):
 
 @input_error
 def modify_note(note_id, new_text="", new_tags=None):
+    """
+    Modifies the text content and/or tags of a note.
+
+    Args:
+        note_id (int): The ID of the note to modify.
+        new_text (str, optional): The new content of the note. Defaults to "".
+        new_tags (list, optional): List of new tags for the note. Defaults to None.
+    """
     if new_text:
         notebook.modify_note(note_id, new_text)
 
@@ -52,6 +74,12 @@ def modify_note(note_id, new_text="", new_tags=None):
 
 @input_error
 def delete_note(note_id):
+    """
+    Deletes a note by its ID.
+
+    Args:
+        note_id (int): The ID of the note to delete.
+    """
     if not note_id:
         print(f"{red}No note ID provided. Please enter a note ID.{reset}\n")
         return
@@ -65,6 +93,12 @@ def delete_note(note_id):
 
 @input_error
 def find_note_by_id(note_id):
+    """
+    Finds a note by its ID and prints it.
+
+    Args:
+        note_id (int): The ID of the note to find.
+    """
     try:
         note_id = int(note_id)
         note = notebook.find_note_by_id(note_id)
@@ -79,6 +113,12 @@ def find_note_by_id(note_id):
 
 
 def print_note(note):
+    """
+    Prints the details of a given note.
+
+    Args:
+        note (Note): The note to print.
+    """
     tags_str = ", ".join(note.tags)
     formatted_date = note.creation_date.strftime("%Y-%m-%d")
 
