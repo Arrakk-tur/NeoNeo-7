@@ -6,9 +6,13 @@ import calendar
 
 
 ADDRESS_BOOK_FILE_PATH = "address_book.json"
-BLUE = "\033[94m"
-ENDC = "\033[0m"
-YELLOW = "\033[93m"
+
+
+blue = "\033[94m"
+reset = "\033[0m"
+green = "\033[92m"
+red = "\033[91m"
+yellow = "\033[93m"
 
 
 class Field:
@@ -27,7 +31,7 @@ class Name(Field):
 class Phone(Field):
     def __init__(self, value):
         if not re.fullmatch(r"\d{10}", value):
-            raise ValueError("Phone number must contain 10 digits")
+            raise ValueError(f"{red}Phone number must contain 10 digits.{reset}\n")
         super().__init__(value)
 
 
@@ -36,7 +40,7 @@ class Birthday(Field):
         try:
             datetime.strptime(birthday, "%d.%m.%Y")
         except ValueError:
-            raise ValueError("The date format is not 'DD.MM.YYYY'")
+            raise ValueError(f"{red}The date format is not 'DD.MM.YYYY'{reset}\n")
         super().__init__(birthday)
 
 
@@ -52,7 +56,7 @@ class Email(Field):
         )
         if not re.fullmatch(regex, value):
             raise ValueError(
-                "Email must be in format (username)@(domainname).(top-leveldomain)"
+                f"{red}Email must be in format (username)@(domainname).(top-leveldomain).{reset}\n"
             )
         super().__init__(value)
 
@@ -77,9 +81,9 @@ class Record:
 
     def show_birthday(self):
         if self.birthday and self.birthday.value:
-            print(f"Birthday: {self.birthday.value}")
+            print(f"{green}Birthday: {self.birthday.value}.{reset}")
         else:
-            print("Birthday not set")
+            print(f"{red}Birthday not set.{reset}\n")
 
     def remove_phone(self):
         self.phone = None
@@ -99,13 +103,15 @@ class Record:
         if self.address and self.address.value == old_address:
             self.address = Address(new_address)
         else:
-            raise ValueError(f"Contact doesn't have address {old_address}")
+            raise ValueError(
+                f"{red}Contact doesn't have address {old_address}.{reset}\n"
+            )
 
     def show_address(self):
         if self.address and self.address.value:
-            print(f"Address: {self.address.value}")
+            print(f"{green}Address: {self.address.value}.{reset}")
         else:
-            print("Address not set")
+            print(f"{red}Address not set.{reset}\n")
 
     def remove_address(self):
         self.address = None
@@ -117,13 +123,13 @@ class Record:
         if self.email and self.email.value == old_email:
             self.email = Email(new_email)
         else:
-            raise ValueError(f"Contact doesn't have email {old_email}")
+            raise ValueError(f"{red}Contact doesn't have email {old_email}.{reset}\n")
 
     def show_email(self):
         if self.email and self.email.value:
-            print(f"Email: {self.email.value}")
+            print(f"{green}Email: {self.email.value}.{reset}")
         else:
-            print("Email not set")
+            print(f"{red}Email not set.{reset}\n")
 
     def remove_email(self):
         self.email = None
@@ -154,7 +160,7 @@ class Record:
         email = f"{self.email.value if self.email else '':^20}"
         phone = f"{self.phone.value:^20}"
         separator = f"|{(('-'*22)+'+')*5}-------|"
-        contact_info = f"| {YELLOW}{self.name.value:<20}{ENDC} | {phone} | {email} | {birthday} | {address} | {self.id:^5} |"
+        contact_info = f"| {yellow}{self.name.value:<20}{reset} | {phone} | {email} | {birthday} | {address} | {self.id:^5} |"
         return f"{contact_info}\n{separator}"
 
 
@@ -185,9 +191,11 @@ class AddressBook(UserDict):
         if to_delete_id:
             del self.data[to_delete_id]
             self.save_contacts_to_file()
-            return f"The entry named {name} was successfully deleted."
+            return (
+                f"{green}Contact with the name {name} was successfully deleted.{reset}"
+            )
         else:
-            return f"An entry with the name {name} was not found."
+            return f"{red}Contact with the name {name} was not found.{reset}\n"
 
     def save_contacts_to_file(self):
         with open(ADDRESS_BOOK_FILE_PATH, "w") as file:
@@ -213,15 +221,15 @@ class AddressBook(UserDict):
                 if CURRENT_DATE <= next_birthday <= CURRENT_DATE + timedelta(days=days):
                     upcoming_birthdays[next_birthday].append(record.name)
         if not upcoming_birthdays:
-            print(f"No upcoming birthdays in the next {days} days.")
+            print(f"{blue}No upcoming birthdays in the next {days} days.{reset}\n")
         else:
-            print(f"Upcoming birthdays in the next {days} days:")
+            print(f"{blue}Upcoming birthdays in the next {days} days:{reset}\n")
             des = []
             for next_birthday, names in sorted(upcoming_birthdays.items()):
                 day_of_week = WEEKDAYS[next_birthday.weekday()]
                 formatted_names = ", ".join(
                     [
-                        f"{YELLOW}{name}{ENDC} ({next_birthday.strftime('%d.%m.%Y')})"
+                        f"{yellow}{name}{reset} ({next_birthday.strftime('%d.%m.%Y')})"
                         for name in names
                     ]
                 )
